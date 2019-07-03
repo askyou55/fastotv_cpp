@@ -31,6 +31,7 @@ SET(PROTOCOL_HEADERS
   ${CMAKE_SOURCE_DIR}/include/fastotv/client.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands/commands.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/client/commands_factory.h
+  ${CMAKE_SOURCE_DIR}/include/fastotv/server/commands_factory.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/auth_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/client_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/programme_info.h
@@ -49,6 +50,7 @@ SET(PROTOCOL_SOURCES
   ${CMAKE_SOURCE_DIR}/src/client.cpp
   ${CMAKE_SOURCE_DIR}/src/commands/commands.cpp
   ${CMAKE_SOURCE_DIR}/src/client/commands_factory.cpp
+  ${CMAKE_SOURCE_DIR}/src/server/commands_factory.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/auth_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/client_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/programme_info.cpp

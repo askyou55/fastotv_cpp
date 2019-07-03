@@ -32,3 +32,4 @@
 *.app
 include/fastotv/config.h
 build_*
+CMakeLists.txt.user
