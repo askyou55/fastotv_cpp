@@ -83,7 +83,7 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error GetServerInforesponsesuccess(protocol::sequance_id_t id,
+common::Error GetServerInfoResponseSuccess(protocol::sequance_id_t id,
                                            const commands_info::ServerInfo& params,
                                            protocol::response_t* resp) {
   if (!resp) {
