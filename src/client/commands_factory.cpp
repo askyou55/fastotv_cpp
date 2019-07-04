@@ -129,8 +129,8 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
 }
 
 common::Error SystemInfoResponseSuccess(protocol::sequance_id_t id,
-                                         const commands_info::ClientInfo& params,
-                                         protocol::response_t* resp) {
+                                        const commands_info::ClientInfo& params,
+                                        protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }

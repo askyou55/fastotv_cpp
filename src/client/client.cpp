@@ -26,8 +26,7 @@
 namespace fastotv {
 namespace client {
 
-Client::Client(common::libev::IoLoop* server, const common::net::socket_info& info)
-    : base_class(server, info), id_() {}
+Client::Client(common::libev::IoLoop* server, const common::net::socket_info& info) : base_class(server, info), id_() {}
 
 common::ErrnoError Client::Ping() {
   commands_info::ServerPingInfo serv_ping;
@@ -61,8 +60,8 @@ common::ErrnoError Client::Pong(protocol::sequance_id_t id, const commands_info:
 }
 
 common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id,
-                                         const fastotv::login_t& login,
-                                         bandwidth_t bandwidth) {
+                                      const fastotv::login_t& login,
+                                      bandwidth_t bandwidth) {
   const common::system_info::CpuInfo& c1 = common::system_info::CurrentCpuInfo();
   std::string brand = c1.GetBrandName();
 

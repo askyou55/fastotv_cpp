@@ -84,8 +84,8 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
 }
 
 common::Error GetServerInforesponsesuccess(protocol::sequance_id_t id,
-                                            const commands_info::ServerInfo& params,
-                                            protocol::response_t* resp) {
+                                           const commands_info::ServerInfo& params,
+                                           protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }
@@ -114,8 +114,8 @@ common::Error GetServerInfoResponseFail(protocol::sequance_id_t id,
 }
 
 common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
-                                          const commands_info::ChannelsInfo& params,
-                                          protocol::response_t* resp) {
+                                         const commands_info::ChannelsInfo& params,
+                                         protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }
@@ -144,8 +144,8 @@ common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
 }
 
 common::Error GetRuntimeChannelInfoResponseSuccess(protocol::sequance_id_t id,
-                                                    const commands_info::RuntimeChannelInfo& params,
-                                                    protocol::response_t* resp) {
+                                                   const commands_info::RuntimeChannelInfo& params,
+                                                   protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }

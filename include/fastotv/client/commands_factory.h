@@ -24,8 +24,8 @@
 
 #include <fastotv/commands_info/auth_info.h>
 #include <fastotv/commands_info/client_info.h>
-#include <fastotv/commands_info/runtime_channel_info.h>
 #include <fastotv/commands_info/ping_info.h>
+#include <fastotv/commands_info/runtime_channel_info.h>
 
 namespace fastotv {
 namespace client {
@@ -48,8 +48,8 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
                                   const commands_info::ClientPingInfo& params,
                                   protocol::response_t* resp);
 common::Error SystemInfoResponseSuccess(protocol::sequance_id_t id,
-                                         const commands_info::ClientInfo& params,
-                                         protocol::response_t* resp);
+                                        const commands_info::ClientInfo& params,
+                                        protocol::response_t* resp);
 
 }  // namespace client
 }  // namespace fastotv

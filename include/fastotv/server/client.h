@@ -66,4 +66,4 @@ class Client : public fastotv::ProtocoledClient {
 };
 
 }  // namespace server
-}  // namespace iptv_cloud
+}  // namespace fastotv

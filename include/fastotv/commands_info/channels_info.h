@@ -54,5 +54,5 @@ inline bool operator!=(const ChannelsInfo& x, const ChannelsInfo& y) {
   return !(x == y);
 }
 
-}
+}  // namespace commands_info
 }  // namespace fastotv

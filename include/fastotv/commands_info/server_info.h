@@ -40,5 +40,5 @@ class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
   common::net::HostAndPort bandwidth_host_;
 };
 
-}
+}  // namespace commands_info
 }  // namespace fastotv
