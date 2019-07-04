@@ -83,7 +83,7 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error GetServerInfoResponceSuccsess(protocol::sequance_id_t id,
+common::Error GetServerInforesponsesuccess(protocol::sequance_id_t id,
                                             const commands_info::ServerInfo& params,
                                             protocol::response_t* resp) {
   if (!resp) {
@@ -101,7 +101,7 @@ common::Error GetServerInfoResponceSuccsess(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error GetServerInfoResponceFail(protocol::sequance_id_t id,
+common::Error GetServerInfoResponseFail(protocol::sequance_id_t id,
                                         const std::string& error_text,
                                         protocol::response_t* resp) {
   if (!resp) {
@@ -113,7 +113,7 @@ common::Error GetServerInfoResponceFail(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error GetChannelsResponceSuccsess(protocol::sequance_id_t id,
+common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
                                           const commands_info::ChannelsInfo& params,
                                           protocol::response_t* resp) {
   if (!resp) {
@@ -131,7 +131,7 @@ common::Error GetChannelsResponceSuccsess(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error GetChannelsResponceFail(protocol::sequance_id_t id,
+common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
                                       const std::string& error_text,
                                       protocol::response_t* resp) {
   if (!resp) {
@@ -143,7 +143,7 @@ common::Error GetChannelsResponceFail(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error GetRuntimeChannelInfoResponceSuccsess(protocol::sequance_id_t id,
+common::Error GetRuntimeChannelInfoResponseSuccess(protocol::sequance_id_t id,
                                                     const commands_info::RuntimeChannelInfo& params,
                                                     protocol::response_t* resp) {
   if (!resp) {

@@ -35,7 +35,7 @@ common::Error PingRequest(protocol::sequance_id_t id,
                           const commands_info::ClientPingInfo& params,
                           protocol::request_t* req);
 
-// responces
+// responses
 common::Error ActivateResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
 common::Error ActivateResponseFail(protocol::sequance_id_t id,
                                    const std::string& error_text,
@@ -47,25 +47,25 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
                                   protocol::response_t* resp);
 
 // server info
-common::Error GetServerInfoResponceSuccsess(protocol::sequance_id_t id,
-                                            const commands_info::ServerInfo& params,
-                                            protocol::response_t* resp);
-common::Error GetServerInfoResponceFail(protocol::sequance_id_t id,
+common::Error GetServerInfoResponseSuccess(protocol::sequance_id_t id,
+                                           const commands_info::ServerInfo& params,
+                                           protocol::response_t* resp);
+common::Error GetServerInfoResponseFail(protocol::sequance_id_t id,
                                         const std::string& error_text,
                                         protocol::response_t* resp);
 
 // channels
-common::Error GetChannelsResponceSuccsess(protocol::sequance_id_t id,
-                                          const commands_info::ChannelsInfo& params,
-                                          protocol::response_t* resp);
-common::Error GetChannelsResponceFail(protocol::sequance_id_t id,
+common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
+                                         const commands_info::ChannelsInfo& params,
+                                         protocol::response_t* resp);
+common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
                                       const std::string& error_text,
                                       protocol::response_t* resp);
 
 // runtimeChannel
-common::Error GetRuntimeChannelInfoResponceSuccsess(protocol::sequance_id_t id,
-                                                    const commands_info::RuntimeChannelInfo& params,
-                                                    protocol::response_t* resp);
+common::Error GetRuntimeChannelInfoResponseSuccess(protocol::sequance_id_t id,
+                                                   const commands_info::RuntimeChannelInfo& params,
+                                                   protocol::response_t* resp);
 
 }  // namespace server
 }  // namespace fastotv

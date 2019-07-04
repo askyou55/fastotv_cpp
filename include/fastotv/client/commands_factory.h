@@ -43,11 +43,11 @@ common::Error GetRuntimeChannelInfoRequest(protocol::sequance_id_t id,
                                            const commands_info::RuntimeChannelLiteInfo& params,
                                            protocol::request_t* req);
 
-// responce
+// response
 common::Error PingResponseSuccess(protocol::sequance_id_t id,
                                   const commands_info::ClientPingInfo& params,
                                   protocol::response_t* resp);
-common::Error SystemInfoResponceSuccsess(protocol::sequance_id_t id,
+common::Error SystemInfoResponseSuccess(protocol::sequance_id_t id,
                                          const commands_info::ClientInfo& params,
                                          protocol::response_t* resp);
 

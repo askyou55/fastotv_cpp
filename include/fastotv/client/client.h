@@ -45,7 +45,7 @@ class Client : public fastotv::ProtocoledClient {
   common::ErrnoError GetChannels() WARN_UNUSED_RESULT;
   common::ErrnoError GetRuntimeChannelInfo(stream_id sid) WARN_UNUSED_RESULT;
 
-  // responces
+  // responses
   common::ErrnoError Pong(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
   common::ErrnoError Pong(protocol::sequance_id_t id, const commands_info::ClientPingInfo& pong) WARN_UNUSED_RESULT;
 

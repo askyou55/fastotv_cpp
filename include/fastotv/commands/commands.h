@@ -32,5 +32,5 @@
 // request
 // {"jsonrpc": "2.0", "method": "activate_request", "id": 11, "params": {"license_key":"%s"}}
 
-// responce
+// response
 // {"jsonrpc": "2.0", "result": 11, "id": 11}

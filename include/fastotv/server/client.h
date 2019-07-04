@@ -34,7 +34,7 @@ class Client : public fastotv::ProtocoledClient {
   common::ErrnoError Ping() WARN_UNUSED_RESULT;
   common::ErrnoError Ping(const fastotv::commands_info::ClientPingInfo& ping) WARN_UNUSED_RESULT;
 
-  // responces
+  // responses
   common::ErrnoError CheckActivateFail(fastotv::protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
 
   common::ErrnoError ActivateFail(fastotv::protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;

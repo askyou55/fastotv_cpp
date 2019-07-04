@@ -57,7 +57,7 @@ common::ErrnoError Client::Pong(protocol::sequance_id_t id, const commands_info:
     return common::make_errno_error(err_str, EINVAL);
   }
 
-  return WriteResponce(resp);
+  return WriteResponse(resp);
 }
 
 common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id,
@@ -81,12 +81,12 @@ common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id,
 
 common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id, const commands_info::ClientInfo& info) {
   protocol::response_t resp;
-  common::Error err_ser = SystemInfoResponceSuccsess(id, info, &resp);
+  common::Error err_ser = SystemInfoResponseSuccess(id, info, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EINVAL);
   }
 
-  return WriteResponce(resp);
+  return WriteResponse(resp);
 }
 
 common::ErrnoError Client::Activate(const login_t& login, const std::string& password, device_id_t dev) {
