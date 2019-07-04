@@ -64,7 +64,8 @@ common::Error GetChannelsResponceFail(protocol::sequance_id_t id,
 
 // runtimeChannel
 common::Error GetRuntimeChannelInfoResponceSuccsess(protocol::sequance_id_t id,
-                                                    const commands_info::RuntimeChannelInfo& params, protocol::response_t* resp);
+                                                    const commands_info::RuntimeChannelInfo& params,
+                                                    protocol::response_t* resp);
 
 }  // namespace server
 }  // namespace fastotv
