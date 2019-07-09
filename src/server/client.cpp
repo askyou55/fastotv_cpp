@@ -21,8 +21,7 @@
 namespace fastotv {
 namespace server {
 
-Client::Client(common::libev::IoLoop* server, const common::net::socket_info& info)
-    : base_class(server, info), id_(0) {}
+Client::Client(common::libev::IoLoop* server, const common::net::socket_info& info) : base_class(server, info) {}
 
 common::ErrnoError Client::Ping() {
   fastotv::commands_info::ClientPingInfo client_ping_info;
@@ -152,11 +151,6 @@ common::ErrnoError Client::GetRuntimeChannelInfoSuccess(fastotv::protocol::sequa
   }
 
   return WriteResponse(resp);
-}
-
-fastotv::protocol::sequance_id_t Client::NextRequestID() {
-  const fastotv::protocol::seq_id_t next_id = id_++;
-  return common::protocols::json_rpc::MakeRequestID(next_id);
 }
 
 }  // namespace server

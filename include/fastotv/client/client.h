@@ -18,6 +18,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <fastotv/client.h>
 #include <fastotv/commands_info/auth_info.h>
 #include <fastotv/commands_info/client_info.h>
@@ -53,11 +55,6 @@ class Client : public fastotv::ProtocoledClient {
                                 const fastotv::login_t& login,
                                 bandwidth_t bandwidth) WARN_UNUSED_RESULT;
   common::ErrnoError SystemInfo(protocol::sequance_id_t id, const commands_info::ClientInfo& info) WARN_UNUSED_RESULT;
-
- private:
-  protocol::sequance_id_t NextRequestID();
-
-  std::atomic<protocol::seq_id_t> id_;
 };
 
 }  // namespace client

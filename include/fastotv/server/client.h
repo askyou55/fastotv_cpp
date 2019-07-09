@@ -58,11 +58,6 @@ class Client : public fastotv::ProtocoledClient {
   common::ErrnoError GetRuntimeChannelInfoSuccess(fastotv::protocol::sequance_id_t id,
                                                   const fastotv::commands_info::RuntimeChannelInfo& channel)
       WARN_UNUSED_RESULT;
-
- private:
-  fastotv::protocol::sequance_id_t NextRequestID();
-
-  std::atomic<fastotv::protocol::seq_id_t> id_;
 };
 
 }  // namespace server
