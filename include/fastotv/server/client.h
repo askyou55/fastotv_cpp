@@ -25,39 +25,37 @@
 namespace fastotv {
 namespace server {
 
-class Client : public fastotv::ProtocoledClient {
+class Client : public ProtocoledClient {
  public:
-  typedef fastotv::ProtocoledClient base_class;
+  typedef ProtocoledClient base_class;
   Client(common::libev::IoLoop* server, const common::net::socket_info& info);
 
   // requests
   common::ErrnoError Ping() WARN_UNUSED_RESULT;
-  common::ErrnoError Ping(const fastotv::commands_info::ClientPingInfo& ping) WARN_UNUSED_RESULT;
+  common::ErrnoError Ping(const commands_info::ClientPingInfo& ping) WARN_UNUSED_RESULT;
 
   // responses
-  common::ErrnoError CheckActivateFail(fastotv::protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError CheckActivateFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
 
-  common::ErrnoError ActivateFail(fastotv::protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
-  common::ErrnoError ActivateSuccess(fastotv::protocol::sequance_id_t id) WARN_UNUSED_RESULT;
+  common::ErrnoError ActivateFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError ActivateSuccess(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
 
-  common::ErrnoError Pong(fastotv::protocol::sequance_id_t id) WARN_UNUSED_RESULT;
-  common::ErrnoError Pong(fastotv::protocol::sequance_id_t id,
-                          const fastotv::commands_info::ServerPingInfo& pong) WARN_UNUSED_RESULT;
+  common::ErrnoError Pong(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
+  common::ErrnoError Pong(protocol::sequance_id_t id, const commands_info::ServerPingInfo& pong) WARN_UNUSED_RESULT;
 
-  common::ErrnoError GetServerInfoFail(fastotv::protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
-  common::ErrnoError GetServerInfoSuccess(fastotv::protocol::sequance_id_t id,
+  common::ErrnoError GetServerInfoFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError GetServerInfoSuccess(protocol::sequance_id_t id,
                                           const common::net::HostAndPort& bandwidth_host) WARN_UNUSED_RESULT;
 
-  common::ErrnoError GetChannelsFail(fastotv::protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
-  common::ErrnoError GetChannelsSuccess(fastotv::protocol::sequance_id_t id,
-                                        const fastotv::commands_info::ChannelsInfo& channels) WARN_UNUSED_RESULT;
+  common::ErrnoError GetChannelsFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError GetChannelsSuccess(protocol::sequance_id_t id,
+                                        const commands_info::ChannelsInfo& channels) WARN_UNUSED_RESULT;
 
-  common::ErrnoError GetRuntimeChannelInfoSuccess(fastotv::protocol::sequance_id_t id,
-                                                  fastotv::stream_id sid,
+  common::ErrnoError GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id,
+                                                  stream_id sid,
                                                   size_t watchers) WARN_UNUSED_RESULT;
-  common::ErrnoError GetRuntimeChannelInfoSuccess(fastotv::protocol::sequance_id_t id,
-                                                  const fastotv::commands_info::RuntimeChannelInfo& channel)
-      WARN_UNUSED_RESULT;
+  common::ErrnoError GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id,
+                                                  const commands_info::RuntimeChannelInfo& channel) WARN_UNUSED_RESULT;
 };
 
 }  // namespace server

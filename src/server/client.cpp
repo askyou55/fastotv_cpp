@@ -24,13 +24,13 @@ namespace server {
 Client::Client(common::libev::IoLoop* server, const common::net::socket_info& info) : base_class(server, info) {}
 
 common::ErrnoError Client::Ping() {
-  fastotv::commands_info::ClientPingInfo client_ping_info;
+  commands_info::ClientPingInfo client_ping_info;
   return Ping(client_ping_info);
 }
 
-common::ErrnoError Client::Ping(const fastotv::commands_info::ClientPingInfo& ping) {
-  fastotv::protocol::request_t ping_request;
-  common::Error err_ser = fastotv::server::PingRequest(NextRequestID(), ping, &ping_request);
+common::ErrnoError Client::Ping(const commands_info::ClientPingInfo& ping) {
+  protocol::request_t ping_request;
+  common::Error err_ser = PingRequest(NextRequestID(), ping, &ping_request);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -38,10 +38,10 @@ common::ErrnoError Client::Ping(const fastotv::commands_info::ClientPingInfo& pi
   return WriteRequest(ping_request);
 }
 
-common::ErrnoError Client::CheckActivateFail(fastotv::protocol::sequance_id_t id, common::Error err) {
+common::ErrnoError Client::CheckActivateFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::ActivateResponseFail(id, error_str, &resp);
+  protocol::response_t resp;
+  common::Error err_ser = ActivateResponseFail(id, error_str, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -49,10 +49,10 @@ common::ErrnoError Client::CheckActivateFail(fastotv::protocol::sequance_id_t id
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::ActivateFail(fastotv::protocol::sequance_id_t id, common::Error err) {
+common::ErrnoError Client::ActivateFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::ActivateResponseFail(id, error_str, &resp);
+  protocol::response_t resp;
+  common::Error err_ser = ActivateResponseFail(id, error_str, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -60,9 +60,9 @@ common::ErrnoError Client::ActivateFail(fastotv::protocol::sequance_id_t id, com
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::ActivateSuccess(fastotv::protocol::sequance_id_t id) {
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::ActivateResponseSuccess(id, &resp);
+common::ErrnoError Client::ActivateSuccess(protocol::sequance_id_t id) {
+  protocol::response_t resp;
+  common::Error err_ser = ActivateResponseSuccess(id, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -70,15 +70,14 @@ common::ErrnoError Client::ActivateSuccess(fastotv::protocol::sequance_id_t id) 
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::Pong(fastotv::protocol::sequance_id_t id) {
-  fastotv::commands_info::ServerPingInfo server_ping_info;
+common::ErrnoError Client::Pong(protocol::sequance_id_t id) {
+  commands_info::ServerPingInfo server_ping_info;
   return Pong(id, server_ping_info);
 }
 
-common::ErrnoError Client::Pong(fastotv::protocol::sequance_id_t id,
-                                const fastotv::commands_info::ServerPingInfo& pong) {
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::PingResponseSuccess(id, pong, &resp);
+common::ErrnoError Client::Pong(protocol::sequance_id_t id, const commands_info::ServerPingInfo& pong) {
+  protocol::response_t resp;
+  common::Error err_ser = PingResponseSuccess(id, pong, &resp);
   if (err_ser) {
     const std::string err_str = err_ser->GetDescription();
     return common::make_errno_error(err_str, EAGAIN);
@@ -87,10 +86,10 @@ common::ErrnoError Client::Pong(fastotv::protocol::sequance_id_t id,
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetServerInfoFail(fastotv::protocol::sequance_id_t id, common::Error err) {
+common::ErrnoError Client::GetServerInfoFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::GetServerInfoResponseFail(id, error_str, &resp);
+  protocol::response_t resp;
+  common::Error err_ser = GetServerInfoResponseFail(id, error_str, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -98,11 +97,11 @@ common::ErrnoError Client::GetServerInfoFail(fastotv::protocol::sequance_id_t id
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetServerInfoSuccess(fastotv::protocol::sequance_id_t id,
+common::ErrnoError Client::GetServerInfoSuccess(protocol::sequance_id_t id,
                                                 const common::net::HostAndPort& bandwidth_host) {
-  fastotv::commands_info::ServerInfo serv(bandwidth_host);
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::GetServerInfoResponseSuccess(id, serv, &resp);
+  commands_info::ServerInfo serv(bandwidth_host);
+  protocol::response_t resp;
+  common::Error err_ser = GetServerInfoResponseSuccess(id, serv, &resp);
   if (err_ser) {
     const std::string err_str = err_ser->GetDescription();
     return common::make_errno_error(err_str, EAGAIN);
@@ -111,10 +110,10 @@ common::ErrnoError Client::GetServerInfoSuccess(fastotv::protocol::sequance_id_t
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetChannelsFail(fastotv::protocol::sequance_id_t id, common::Error err) {
+common::ErrnoError Client::GetChannelsFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::GetChannelsResponseFail(id, error_str, &resp);
+  protocol::response_t resp;
+  common::Error err_ser = GetChannelsResponseFail(id, error_str, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -122,10 +121,9 @@ common::ErrnoError Client::GetChannelsFail(fastotv::protocol::sequance_id_t id, 
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetChannelsSuccess(fastotv::protocol::sequance_id_t id,
-                                              const fastotv::commands_info::ChannelsInfo& channels) {
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::GetChannelsResponseSuccess(id, channels, &resp);
+common::ErrnoError Client::GetChannelsSuccess(protocol::sequance_id_t id, const commands_info::ChannelsInfo& channels) {
+  protocol::response_t resp;
+  common::Error err_ser = GetChannelsResponseSuccess(id, channels, &resp);
   if (err_ser) {
     const std::string err_str = err_ser->GetDescription();
     return common::make_errno_error(err_str, EAGAIN);
@@ -134,17 +132,15 @@ common::ErrnoError Client::GetChannelsSuccess(fastotv::protocol::sequance_id_t i
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetRuntimeChannelInfoSuccess(fastotv::protocol::sequance_id_t id,
-                                                        fastotv::stream_id sid,
-                                                        size_t watchers) {
-  fastotv::commands_info::RuntimeChannelInfo channel(sid, watchers);
+common::ErrnoError Client::GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id, stream_id sid, size_t watchers) {
+  commands_info::RuntimeChannelInfo channel(sid, watchers);
   return GetRuntimeChannelInfoSuccess(id, channel);
 }
 
-common::ErrnoError Client::GetRuntimeChannelInfoSuccess(fastotv::protocol::sequance_id_t id,
-                                                        const fastotv::commands_info::RuntimeChannelInfo& channel) {
-  fastotv::protocol::response_t resp;
-  common::Error err_ser = fastotv::server::GetRuntimeChannelInfoResponseSuccess(id, channel, &resp);
+common::ErrnoError Client::GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id,
+                                                        const commands_info::RuntimeChannelInfo& channel) {
+  protocol::response_t resp;
+  common::Error err_ser = GetRuntimeChannelInfoResponseSuccess(id, channel, &resp);
   if (err_ser) {
     const std::string err_str = err_ser->GetDescription();
     return common::make_errno_error(err_str, EAGAIN);

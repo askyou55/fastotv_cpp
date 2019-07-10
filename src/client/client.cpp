@@ -59,9 +59,7 @@ common::ErrnoError Client::Pong(protocol::sequance_id_t id, const commands_info:
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id,
-                                      const fastotv::login_t& login,
-                                      bandwidth_t bandwidth) {
+common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id, const login_t& login, bandwidth_t bandwidth) {
   const common::system_info::CpuInfo& c1 = common::system_info::CurrentCpuInfo();
   std::string brand = c1.GetBrandName();
 
@@ -93,7 +91,7 @@ common::ErrnoError Client::Activate(const login_t& login, const std::string& pas
   return Activate(auth_info);
 }
 
-common::ErrnoError Client::Activate(const fastotv::commands_info::AuthInfo& auth) {
+common::ErrnoError Client::Activate(const commands_info::AuthInfo& auth) {
   protocol::request_t auth_request;
   common::Error err_ser = ActiveRequest(NextRequestID(), auth, &auth_request);
   if (err_ser) {

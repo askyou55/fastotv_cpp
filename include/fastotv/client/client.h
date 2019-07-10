@@ -29,19 +29,17 @@
 namespace fastotv {
 namespace client {
 
-class Client : public fastotv::ProtocoledClient {
+class Client : public ProtocoledClient {
  public:
-  typedef fastotv::ProtocoledClient base_class;
+  typedef ProtocoledClient base_class;
   Client(common::libev::IoLoop* server, const common::net::socket_info& info);
 
   // requests
   common::ErrnoError Ping() WARN_UNUSED_RESULT;
   common::ErrnoError Ping(const commands_info::ServerPingInfo& ping) WARN_UNUSED_RESULT;
 
-  common::ErrnoError Activate(const fastotv::login_t& login,
-                              const std::string& password,
-                              fastotv::device_id_t dev) WARN_UNUSED_RESULT;
-  common::ErrnoError Activate(const fastotv::commands_info::AuthInfo& auth) WARN_UNUSED_RESULT;
+  common::ErrnoError Activate(const login_t& login, const std::string& password, device_id_t dev) WARN_UNUSED_RESULT;
+  common::ErrnoError Activate(const commands_info::AuthInfo& auth) WARN_UNUSED_RESULT;
 
   common::ErrnoError GetServerInfo() WARN_UNUSED_RESULT;
   common::ErrnoError GetChannels() WARN_UNUSED_RESULT;
@@ -52,7 +50,7 @@ class Client : public fastotv::ProtocoledClient {
   common::ErrnoError Pong(protocol::sequance_id_t id, const commands_info::ClientPingInfo& pong) WARN_UNUSED_RESULT;
 
   common::ErrnoError SystemInfo(protocol::sequance_id_t id,
-                                const fastotv::login_t& login,
+                                const login_t& login,
                                 bandwidth_t bandwidth) WARN_UNUSED_RESULT;
   common::ErrnoError SystemInfo(protocol::sequance_id_t id, const commands_info::ClientInfo& info) WARN_UNUSED_RESULT;
 };
