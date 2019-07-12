@@ -22,7 +22,9 @@
 #include <fastotv/commands_info/channel_info.h>
 #include <fastotv/commands_info/channels_info.h>
 #include <fastotv/commands_info/client_info.h>
+#include <fastotv/commands_info/epg_info.h>
 #include <fastotv/commands_info/ping_info.h>
+#include <fastotv/commands_info/programme_info.h>
 #include <fastotv/commands_info/runtime_channel_info.h>
 #include <fastotv/commands_info/server_info.h>
 
@@ -88,6 +90,29 @@ TEST(ServerInfo, serialize_deserialize) {
   ASSERT_EQ(serv_info.GetBandwidthHost(), dser.GetBandwidthHost());
 }
 
+TEST(EpgInfo, serialize_deserialize) {
+  const fastotv::commands_info::EpgInfo::tvg_id_t id = "tid";
+  const common::uri::Url uri("http://fasotgt.com:8080/master.m3u8");
+  const std::string name = "test";
+
+  fastotv::commands_info::EpgInfo epg(id, uri, name);
+  ASSERT_TRUE(epg.IsValid());
+  serialize_t ser;
+  common::Error err = epg.Serialize(&ser);
+  ASSERT_TRUE(!err);
+
+  fastotv::commands_info::EpgInfo dser;
+  ASSERT_TRUE(!dser.IsValid());
+  err = dser.DeSerialize(ser);
+  ASSERT_TRUE(!err);
+  ASSERT_TRUE(dser.IsValid());
+
+  ASSERT_EQ(epg.GetTvgID(), dser.GetTvgID());
+  ASSERT_EQ(epg.GetUrl(), dser.GetUrl());
+  ASSERT_EQ(epg.GetDisplayName(), dser.GetDisplayName());
+  ASSERT_EQ(epg, dser);
+}
+
 TEST(ServerPingInfo, serialize_deserialize) {
   fastotv::commands_info::ServerPingInfo ping_info;
   serialize_t ser;
@@ -110,6 +135,35 @@ TEST(ClientPingInfo, serialize_deserialize) {
   ASSERT_TRUE(!err);
 
   ASSERT_EQ(ping_info.GetTimeStamp(), dser.GetTimeStamp());
+}
+
+TEST(ProgrammeInfo, serialize_deserialize) {
+  const fastotv::stream_id id = "1234";
+  const fastotv::timestamp_t start_time = 1;
+  const fastotv::timestamp_t stop_time = 123;
+  const std::string title = "tit";
+
+  fastotv::commands_info::ProgrammeInfo prog(id, start_time, stop_time, title);
+  ASSERT_TRUE(prog.IsValid());
+  ASSERT_EQ(prog.GetChannel(), id);
+  ASSERT_EQ(prog.GetStart(), start_time);
+  ASSERT_EQ(prog.GetStop(), stop_time);
+  ASSERT_EQ(prog.GetTitle(), title);
+
+  serialize_t ser;
+  common::Error err = prog.Serialize(&ser);
+  ASSERT_TRUE(!err);
+
+  fastotv::commands_info::ProgrammeInfo dser;
+  ASSERT_TRUE(!dser.IsValid());
+  err = dser.DeSerialize(ser);
+  ASSERT_TRUE(!err);
+
+  ASSERT_EQ(prog.GetChannel(), dser.GetChannel());
+  ASSERT_EQ(prog.GetStart(), dser.GetStart());
+  ASSERT_EQ(prog.GetStop(), dser.GetStop());
+  ASSERT_EQ(prog.GetTitle(), dser.GetTitle());
+  ASSERT_EQ(prog, dser);
 }
 
 TEST(ClientInfo, serialize_deserialize) {
