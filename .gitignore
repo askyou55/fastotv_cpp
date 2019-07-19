@@ -30,6 +30,8 @@
 *.exe
 *.out
 *.app
+
+# fastogt
 include/fastotv/config.h
 build_*
 CMakeLists.txt.user
