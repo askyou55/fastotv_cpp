@@ -14,19 +14,14 @@ SET(PROJECT_COPYRIGHT "Copyright (C) 2014-2019 ${PROJECT_COMPANYNAME}. All Right
 SET(PROJECT_COMPANYNAME_DOMAIN "www.fastogt.com" CACHE STRING "Internet domain name for ${PROJECT_NAME}")
 SET(PROJECT_MAINTAINER_MAIL "atopilski@fastogt.com" CACHE STRING "Internet mail address for ${PROJECT_NAME} mainteiner")
 SET(PROJECT_MAINTAINER_NAME "Alexandr Topilski" CACHE STRING "Name of ${PROJECT_NAME} mainteiner")
-SET(PROJECT_GITHUB_FORK "www.github.com/fastogt/fastotv" CACHE STRING "Git fork of ${PROJECT_NAME}")
-SET(PROJECT_GITHUB_ISSUES "www.github.com/fastogt/fastotv/issues" CACHE STRING "Git issue link for ${PROJECT_NAME}")
+SET(PROJECT_GITHUB_FORK "www.github.com/fastogt/fastotv_protocol" CACHE STRING "Git fork of ${PROJECT_NAME}")
+SET(PROJECT_GITHUB_ISSUES "www.github.com/fastogt/fastotv_protocol/issues" CACHE STRING "Git issue link for ${PROJECT_NAME}")
 SET(PROJECT_BUILD_TYPE_VERSION "release") #alfa, beta, rc, release
 
-SET(PROJECT_SUMMARY "Cross-platform open source player."
-  CACHE STRING "Short description of ${PROJECT_NAME}")
-SET(PROJECT_DESCRIPTION "${PROJECT_NAME} it is tv player."
-  CACHE STRING "Description of ${PROJECT_NAME}")
-SET(PROJECT_COPYRIGHT "Copyright (C) 2014-2019 ${PROJECT_COMPANYNAME} All Rights Reserved."
-  CACHE STRING "Copyright notice for ${PROJECT_NAME}") #default
-SET(PROJECT_CHANGELOG_FILE CHANGELOG
-  CACHE STRING "Branding for changelog file ${PROJECT_NAME}
-  (File name given as relative paths are interpreted with respect to the src source directory)") #default
+SET(PROJECT_SUMMARY "Open source C++ tv player protocol." CACHE STRING "Short description of ${PROJECT_NAME}")
+SET(PROJECT_DESCRIPTION "${PROJECT_NAME} it is C++ tv player protocol." CACHE STRING "Description of ${PROJECT_NAME}")
+SET(PROJECT_COPYRIGHT "Copyright (C) 2014-2019 ${PROJECT_COMPANYNAME} All Rights Reserved." CACHE STRING "Copyright notice for ${PROJECT_NAME}") #default
+SET(PROJECT_CHANGELOG_FILE CHANGELOG CACHE STRING "Branding for changelog file ${PROJECT_NAME} (File name given as relative paths are interpreted with respect to the src source directory)") #default
 
 SET(PROJECT_CHANGELOG_FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/CHANGELOG)
 SET(DATE_CMD "date")
