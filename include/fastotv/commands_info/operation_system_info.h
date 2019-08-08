@@ -32,7 +32,7 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
                       const std::string& version,
                       const std::string& arch,
                       int64_t ram_total,
-                      int64_t ram_free );
+                      int64_t ram_free);
 
   bool IsValid() const;
 
@@ -42,7 +42,7 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
   int64_t GetRamTotal() const;
   int64_t GetRamFree() const;
 
-  static OperationSystemInfo MakeCurrentOS();
+  static OperationSystemInfo MakeOSSnapshot();
 
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;

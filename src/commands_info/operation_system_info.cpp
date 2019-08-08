@@ -58,10 +58,11 @@ int64_t OperationSystemInfo::GetRamFree() const {
   return ram_free_;
 }
 
-OperationSystemInfo OperationSystemInfo::MakeCurrentOS() {
-  return OperationSystemInfo(common::system_info::OperatingSystemName(), common::system_info::OperatingSystemVersion(),
-                             common::system_info::OperatingSystemArchitecture(),
-                             common::system_info::AmountOfPhysicalMemory(),
+OperationSystemInfo OperationSystemInfo::MakeOSSnapshot() {
+  static const std::string name = common::system_info::OperatingSystemName();
+  static const std::string version = common::system_info::OperatingSystemVersion();
+  static const std::string arch = common::system_info::OperatingSystemArchitecture();
+  return OperationSystemInfo(name, version, arch, common::system_info::AmountOfPhysicalMemory(),
                              common::system_info::AmountOfAvailablePhysicalMemory());
 }
 
