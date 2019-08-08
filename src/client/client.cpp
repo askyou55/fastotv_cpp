@@ -18,8 +18,7 @@
 
 #include <fastotv/client/client.h>
 
-#include <common/system_info/cpu_info.h>     // for CurrentCpuInfo
-#include <common/system_info/system_info.h>  // for AmountOfAvailable...
+#include <common/system_info/cpu_info.h>  // for CurrentCpuInfo
 
 #include <fastotv/client/commands_factory.h>
 
@@ -62,17 +61,7 @@ common::ErrnoError Client::Pong(protocol::sequance_id_t id, const commands_info:
 common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id, const login_t& login, bandwidth_t bandwidth) {
   const common::system_info::CpuInfo& c1 = common::system_info::CurrentCpuInfo();
   std::string brand = c1.GetBrandName();
-
-  int64_t ram_total = common::system_info::AmountOfPhysicalMemory();
-  int64_t ram_free = common::system_info::AmountOfAvailablePhysicalMemory();
-
-  std::string os_name = common::system_info::OperatingSystemName();
-  std::string os_version = common::system_info::OperatingSystemVersion();
-  std::string os_arch = common::system_info::OperatingSystemArchitecture();
-
-  std::string os = common::MemSPrintf("%s %s(%s)", os_name, os_version, os_arch);
-
-  commands_info::ClientInfo info(login, os, brand, ram_total, ram_free, bandwidth);
+  commands_info::ClientInfo info(login, commands_info::OperationSystemInfo::MakeCurrentOS(), brand, bandwidth);
   return SystemInfo(id, info);
 }
 

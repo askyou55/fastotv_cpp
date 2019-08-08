@@ -20,34 +20,41 @@
 
 #include <string>
 
-#include <fastotv/commands_info/operation_system_info.h>
-
-#include <fastotv/types.h>
+#include <common/serializer/json_serializer.h>
 
 namespace fastotv {
 namespace commands_info {
 
-class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
+class OperationSystemInfo : public common::serializer::JsonSerializer<OperationSystemInfo> {
  public:
-  ClientInfo();
-  ClientInfo(const login_t& login, const OperationSystemInfo& os, const std::string& cpu_brand, bandwidth_t bandwidth);
+  OperationSystemInfo();
+  OperationSystemInfo(const std::string& name,
+                      const std::string& version,
+                      const std::string& arch,
+                      int64_t ram_total,
+                      int64_t ram_free );
 
   bool IsValid() const;
 
-  login_t GetLogin() const;
-  OperationSystemInfo GetOs() const;
-  std::string GetCpuBrand() const;
-  bandwidth_t GetBandwidth() const;
+  std::string GetName() const;
+  std::string GetVersion() const;
+  std::string GetArch() const;
+  int64_t GetRamTotal() const;
+  int64_t GetRamFree() const;
+
+  static OperationSystemInfo MakeCurrentOS();
 
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  login_t login_;
-  OperationSystemInfo os_;
-  std::string cpu_brand_;
-  bandwidth_t bandwidth_;
+  std::string name_;
+  std::string version_;
+  std::string arch_;
+
+  int64_t ram_total_;
+  int64_t ram_free_;
 };
 
 }  // namespace commands_info
