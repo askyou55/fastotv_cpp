@@ -31,16 +31,16 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
   OperationSystemInfo(const std::string& name,
                       const std::string& version,
                       const std::string& arch,
-                      int64_t ram_total,
-                      int64_t ram_free);
+                      size_t ram_total,
+                      size_t ram_free);
 
   bool IsValid() const;
 
   std::string GetName() const;
   std::string GetVersion() const;
   std::string GetArch() const;
-  int64_t GetRamTotal() const;
-  int64_t GetRamFree() const;
+  size_t GetRamTotal() const;
+  size_t GetRamFree() const;
 
   static OperationSystemInfo MakeOSSnapshot();
 
@@ -53,8 +53,8 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
   std::string version_;
   std::string arch_;
 
-  int64_t ram_total_;
-  int64_t ram_free_;
+  size_t ram_total_;
+  size_t ram_free_;
 };
 
 }  // namespace commands_info

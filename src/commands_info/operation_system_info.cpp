@@ -34,8 +34,8 @@ OperationSystemInfo::OperationSystemInfo() : OperationSystemInfo(std::string(), 
 OperationSystemInfo::OperationSystemInfo(const std::string& name,
                                          const std::string& version,
                                          const std::string& arch,
-                                         int64_t ram_total,
-                                         int64_t ram_free)
+                                         size_t ram_total,
+                                         size_t ram_free)
     : name_(name), version_(version), arch_(arch), ram_total_(ram_total), ram_free_(ram_free) {}
 
 std::string OperationSystemInfo::GetName() const {
@@ -50,11 +50,11 @@ std::string OperationSystemInfo::GetArch() const {
   return arch_;
 }
 
-int64_t OperationSystemInfo::GetRamTotal() const {
+size_t OperationSystemInfo::GetRamTotal() const {
   return ram_total_;
 }
 
-int64_t OperationSystemInfo::GetRamFree() const {
+size_t OperationSystemInfo::GetRamFree() const {
   return ram_free_;
 }
 
@@ -62,8 +62,9 @@ OperationSystemInfo OperationSystemInfo::MakeOSSnapshot() {
   static const std::string name = common::system_info::OperatingSystemName();
   static const std::string version = common::system_info::OperatingSystemVersion();
   static const std::string arch = common::system_info::OperatingSystemArchitecture();
-  return OperationSystemInfo(name, version, arch, common::system_info::AmountOfPhysicalMemory(),
-                             common::system_info::AmountOfAvailablePhysicalMemory());
+  const auto total = common::system_info::AmountOfPhysicalMemory();
+  const auto avail = common::system_info::AmountOfAvailablePhysicalMemory();
+  return OperationSystemInfo(name, version, arch, total ? *total : 0, avail ? *avail : 0);
 }
 
 bool OperationSystemInfo::IsValid() const {
