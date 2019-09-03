@@ -50,6 +50,7 @@ common::Error PingResponseSuccess(protocol::sequance_id_t id,
 common::Error SystemInfoResponseSuccess(protocol::sequance_id_t id,
                                         const commands_info::ClientInfo& params,
                                         protocol::response_t* resp);
+common::Error NotificationTextSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
 
 }  // namespace client
 }  // namespace fastotv

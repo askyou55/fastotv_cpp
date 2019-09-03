@@ -146,5 +146,14 @@ common::Error SystemInfoResponseSuccess(protocol::sequance_id_t id,
   return common::Error();
 }
 
+common::Error NotificationTextSuccess(protocol::sequance_id_t id, protocol::response_t* resp) {
+  if (!resp) {
+    return common::make_error_inval();
+  }
+
+  *resp = protocol::response_t::MakeMessage(id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage());
+  return common::Error();
+}
+
 }  // namespace client
 }  // namespace fastotv

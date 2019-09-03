@@ -42,6 +42,17 @@ common::ErrnoError Client::Ping(const commands_info::ServerPingInfo& ping) {
   return WriteRequest(ping_request);
 }
 
+common::ErrnoError Client::NotificationTextOK(protocol::sequance_id_t id) {
+  protocol::response_t resp;
+  common::Error err_ser = NotificationTextSuccess(id, &resp);
+  if (err_ser) {
+    const std::string err_str = err_ser->GetDescription();
+    return common::make_errno_error(err_str, EINVAL);
+  }
+
+  return WriteResponse(resp);
+}
+
 common::ErrnoError Client::Pong(protocol::sequance_id_t id) {
   commands_info::ClientPingInfo client_pong;
   return Pong(id, client_pong);

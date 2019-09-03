@@ -46,6 +46,7 @@ class Client : public ProtocoledClient {
   common::ErrnoError GetRuntimeChannelInfo(stream_id sid) WARN_UNUSED_RESULT;
 
   // responses
+  common::ErrnoError NotificationTextOK(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
   common::ErrnoError Pong(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
   common::ErrnoError Pong(protocol::sequance_id_t id, const commands_info::ClientPingInfo& pong) WARN_UNUSED_RESULT;
 
