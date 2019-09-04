@@ -28,14 +28,19 @@ namespace commands_info {
 
 class NotificationTextInfo : public common::serializer::JsonSerializer<NotificationTextInfo> {
  public:
+  enum MessageType { TEXT = 0, HYPERLINK = 1 };
+
   NotificationTextInfo();
-  NotificationTextInfo(const std::string& text, common::time64_t show_time);
+  NotificationTextInfo(const std::string& text, MessageType message, common::time64_t show_time);
 
   std::string GetText() const;
   void SetText(const std::string& text);
 
   common::time64_t GetShowTime() const;
   void SetShowTime(common::time64_t time);
+
+  MessageType GetType() const;
+  void SetType(MessageType type);
 
   bool Equals(const NotificationTextInfo& auth) const;
 
@@ -45,6 +50,7 @@ class NotificationTextInfo : public common::serializer::JsonSerializer<Notificat
 
  private:
   std::string text_;
+  MessageType type_;
   common::time64_t show_time_;
 };
 

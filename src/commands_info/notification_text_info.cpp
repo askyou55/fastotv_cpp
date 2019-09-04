@@ -21,6 +21,7 @@
 #include <string>  // for string
 
 #define NOTIFICATION_TEXT_INFO_TEXT_FIELD "message"
+#define NOTIFICATION_TEXT_INFO_TEXT_TYPE_FIELD "type"
 #define NOTIFICATION_TEXT_INFO_SHOW_TIME_FIELD "show_time"
 
 namespace fastotv {
@@ -28,11 +29,12 @@ namespace commands_info {
 
 NotificationTextInfo::NotificationTextInfo() : text_(), show_time_(0) {}
 
-NotificationTextInfo::NotificationTextInfo(const std::string& text, common::time64_t show_time)
-    : text_(text), show_time_(show_time) {}
+NotificationTextInfo::NotificationTextInfo(const std::string& text, MessageType type, common::time64_t show_time)
+    : text_(text), type_(type), show_time_(show_time) {}
 
 common::Error NotificationTextInfo::SerializeFields(json_object* deserialized) const {
   json_object_object_add(deserialized, NOTIFICATION_TEXT_INFO_TEXT_FIELD, json_object_new_string(text_.c_str()));
+  json_object_object_add(deserialized, NOTIFICATION_TEXT_INFO_TEXT_TYPE_FIELD, json_object_new_int(type_));
   json_object_object_add(deserialized, NOTIFICATION_TEXT_INFO_SHOW_TIME_FIELD, json_object_new_int64(show_time_));
   return common::Error();
 }
@@ -44,6 +46,13 @@ common::Error NotificationTextInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
 
+  MessageType type = TEXT;
+  json_object* jtype = nullptr;
+  json_bool jtype_exists = json_object_object_get_ex(serialized, NOTIFICATION_TEXT_INFO_TEXT_TYPE_FIELD, &jtype);
+  if (jtype_exists) {
+    type = static_cast<MessageType>(json_object_get_int(jtype));
+  }
+
   json_object* jshow_time = nullptr;
   json_bool jshow_time_exists =
       json_object_object_get_ex(serialized, NOTIFICATION_TEXT_INFO_SHOW_TIME_FIELD, &jshow_time);
@@ -51,7 +60,7 @@ common::Error NotificationTextInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
 
-  NotificationTextInfo ainf(json_object_get_string(jtext), json_object_get_int64(jshow_time));
+  NotificationTextInfo ainf(json_object_get_string(jtext), type, json_object_get_int64(jshow_time));
   *this = ainf;
   return common::Error();
 }
@@ -72,8 +81,16 @@ void NotificationTextInfo::SetShowTime(common::time64_t time) {
   show_time_ = time;
 }
 
+NotificationTextInfo::MessageType NotificationTextInfo::GetType() const {
+  return type_;
+}
+
+void NotificationTextInfo::SetType(MessageType type) {
+  type_ = type;
+}
+
 bool NotificationTextInfo::Equals(const NotificationTextInfo& auth) const {
-  return text_ == auth.text_ && show_time_ == auth.show_time_;
+  return text_ == auth.text_ && show_time_ == auth.show_time_ && type_ == auth.type_;
 }
 
 }  // namespace commands_info
