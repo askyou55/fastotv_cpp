@@ -20,7 +20,7 @@
 
 #include <string>  // for string
 
-#define NOTIFICATION_TEXT_INFO_TEXT_FIELD "text"
+#define NOTIFICATION_TEXT_INFO_TEXT_FIELD "message"
 #define NOTIFICATION_TEXT_INFO_SHOW_TIME_FIELD "show_time"
 
 namespace fastotv {
