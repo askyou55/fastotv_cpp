@@ -55,9 +55,6 @@ IF(APPLE AND CMAKE_OSX_SYSROOT)
 ENDIF(APPLE AND CMAKE_OSX_SYSROOT)
 
 ########################## Options #########################
-OPTION(BUILD_PLAYER_LIB "Build player library" ON)
-OPTION(BUILD_PLAYER "Build player" ON)
-OPTION(LOG_TO_FILE "Logging to file" OFF)
 OPTION(DEVELOPER_ENABLE_TESTS "Enable tests for ${PROJECT_NAME_TITLE} project" OFF)
 OPTION(DEVELOPER_CHECK_STYLE "Enable check style for ${PROJECT_NAME_TITLE} project" OFF)
 OPTION(DEVELOPER_GENERATE_DOCS "Generate docs api for ${PROJECT_NAME_TITLE} project" OFF)

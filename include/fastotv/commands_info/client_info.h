@@ -39,6 +39,8 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
   std::string GetCpuBrand() const;
   bandwidth_t GetBandwidth() const;
 
+  bool Equals(const ClientInfo& info) const;
+
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
@@ -49,6 +51,14 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
   std::string cpu_brand_;
   bandwidth_t bandwidth_;
 };
+
+inline bool operator==(const ClientInfo& left, const ClientInfo& right) {
+  return left.Equals(right);
+}
+
+inline bool operator!=(const ClientInfo& x, const ClientInfo& y) {
+  return !(x == y);
+}
 
 }  // namespace commands_info
 }  // namespace fastotv

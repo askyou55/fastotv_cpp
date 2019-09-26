@@ -115,5 +115,9 @@ bandwidth_t ClientInfo::GetBandwidth() const {
   return bandwidth_;
 }
 
+bool ClientInfo::Equals(const ClientInfo& info) const {
+  return login_ == info.login_ && os_ == info.os_ && cpu_brand_ == info.cpu_brand_ && bandwidth_ == info.bandwidth_;
+}
+
 }  // namespace commands_info
 }  // namespace fastotv

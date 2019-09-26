@@ -169,17 +169,21 @@ TEST(ProgrammeInfo, serialize_deserialize) {
 TEST(ClientInfo, serialize_deserialize) {
   const fastotv::login_t login = "Alex";
   const std::string os = "Os";
+  const std::string os_version = "123";
   const std::string cpu_brand = "brand";
+  const std::string arch = "x64";
   const int64_t ram_total = 1;
   const int64_t ram_free = 2;
   const fastotv::bandwidth_t bandwidth = 5;
 
-  fastotv::commands_info::ClientInfo cinf(login, os, cpu_brand, ram_total, ram_free, bandwidth);
+  fastotv::commands_info::OperationSystemInfo ops(os, os_version, arch, ram_total, ram_free);
+  ASSERT_EQ(ops.GetRamTotal(), ram_total);
+  ASSERT_EQ(ops.GetRamFree(), ram_free);
+
+  fastotv::commands_info::ClientInfo cinf(login, ops, cpu_brand, bandwidth);
   ASSERT_EQ(cinf.GetLogin(), login);
-  ASSERT_EQ(cinf.GetOs(), os);
+  ASSERT_EQ(cinf.GetOs(), ops);
   ASSERT_EQ(cinf.GetCpuBrand(), cpu_brand);
-  ASSERT_EQ(cinf.GetRamTotal(), ram_total);
-  ASSERT_EQ(cinf.GetRamFree(), ram_free);
   ASSERT_EQ(cinf.GetBandwidth(), bandwidth);
 
   serialize_t ser;
@@ -192,9 +196,9 @@ TEST(ClientInfo, serialize_deserialize) {
   ASSERT_EQ(cinf.GetLogin(), dcinf.GetLogin());
   ASSERT_EQ(cinf.GetOs(), dcinf.GetOs());
   ASSERT_EQ(cinf.GetCpuBrand(), dcinf.GetCpuBrand());
-  ASSERT_EQ(cinf.GetRamTotal(), dcinf.GetRamTotal());
-  ASSERT_EQ(cinf.GetRamFree(), dcinf.GetRamFree());
   ASSERT_EQ(cinf.GetBandwidth(), dcinf.GetBandwidth());
+
+  ASSERT_EQ(cinf, dcinf);
 }
 
 TEST(channels_t, serialize_deserialize) {

@@ -95,14 +95,14 @@ common::Error OperationSystemInfo::DoDeSerialize(json_object* serialized) {
 
   json_object* jversion = nullptr;
   json_bool jversion_exists = json_object_object_get_ex(serialized, OPERATION_SYSTEM_VERSION, &jversion);
-  if (jversion_exists) {
+  if (!jversion_exists) {
     return common::make_error_inval();
   }
   inf.version_ = json_object_get_string(jversion);
 
   json_object* jarch = nullptr;
   json_bool jarch_exists = json_object_object_get_ex(serialized, OPERATION_SYSTEM_ARCH, &jarch);
-  if (jarch_exists) {
+  if (!jarch_exists) {
     return common::make_error_inval();
   }
   inf.arch_ = json_object_get_string(jarch);
@@ -120,6 +120,11 @@ common::Error OperationSystemInfo::DoDeSerialize(json_object* serialized) {
   }
   *this = inf;
   return common::Error();
+}
+
+bool OperationSystemInfo::Equals(const OperationSystemInfo& os) const {
+  return name_ == os.name_ && version_ == os.version_ && arch_ == os.arch_ && ram_free_ == os.ram_free_ &&
+         ram_total_ == os.ram_total_;
 }
 
 }  // namespace commands_info

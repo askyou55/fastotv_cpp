@@ -44,6 +44,8 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
 
   static OperationSystemInfo MakeOSSnapshot();
 
+  bool Equals(const OperationSystemInfo& os) const;
+
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
@@ -56,6 +58,14 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
   size_t ram_total_;
   size_t ram_free_;
 };
+
+inline bool operator==(const OperationSystemInfo& left, const OperationSystemInfo& right) {
+  return left.Equals(right);
+}
+
+inline bool operator!=(const OperationSystemInfo& x, const OperationSystemInfo& y) {
+  return !(x == y);
+}
 
 }  // namespace commands_info
 }  // namespace fastotv
