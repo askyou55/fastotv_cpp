@@ -20,6 +20,7 @@
 
 #define CHANNEL_INFO_ID_FIELD "id"
 #define CHANNEL_INFO_TYPE_FIELD "type"
+#define CHANNEL_INFO_UI_TYPE_FIELD "ui_type"
 #define CHANNEL_INFO_EPG_FIELD "epg"
 #define CHANNEL_INFO_VIDEO_ENABLE_FIELD "video"
 #define CHANNEL_INFO_AUDIO_ENABLE_FIELD "audio"
@@ -30,8 +31,18 @@ namespace commands_info {
 ChannelInfo::ChannelInfo()
     : stream_id_(invalid_stream_id), type_(PUBLIC), epg_(), enable_audio_(true), enable_video_(true) {}
 
-ChannelInfo::ChannelInfo(stream_id sid, Type type, const EpgInfo& epg, bool enable_audio, bool enable_video)
-    : stream_id_(sid), type_(type), epg_(epg), enable_audio_(enable_audio), enable_video_(enable_video) {}
+ChannelInfo::ChannelInfo(stream_id sid,
+                         Type type,
+                         UIType utype,
+                         const EpgInfo& epg,
+                         bool enable_audio,
+                         bool enable_video)
+    : stream_id_(sid),
+      type_(type),
+      ui_type_(utype),
+      epg_(epg),
+      enable_audio_(enable_audio),
+      enable_video_(enable_video) {}
 
 bool ChannelInfo::IsValid() const {
   return stream_id_ != invalid_stream_id && epg_.IsValid();
@@ -49,8 +60,12 @@ stream_id ChannelInfo::GetStreamID() const {
   return stream_id_;
 }
 
-ChannelInfo::Type ChannelInfo::GetType() {
+ChannelInfo::Type ChannelInfo::GetType() const {
   return type_;
+}
+
+ChannelInfo::UIType ChannelInfo::GetUIType() const {
+  return ui_type_;
 }
 
 EpgInfo ChannelInfo::GetEpg() const {
@@ -78,6 +93,7 @@ common::Error ChannelInfo::SerializeFields(json_object* deserialized) const {
 
   json_object_object_add(deserialized, CHANNEL_INFO_ID_FIELD, json_object_new_string(stream_id_.c_str()));
   json_object_object_add(deserialized, CHANNEL_INFO_TYPE_FIELD, json_object_new_int(type_));
+  json_object_object_add(deserialized, CHANNEL_INFO_UI_TYPE_FIELD, json_object_new_int(ui_type_));
   json_object_object_add(deserialized, CHANNEL_INFO_EPG_FIELD, jepg);
   json_object_object_add(deserialized, CHANNEL_INFO_AUDIO_ENABLE_FIELD, json_object_new_boolean(enable_audio_));
   json_object_object_add(deserialized, CHANNEL_INFO_VIDEO_ENABLE_FIELD, json_object_new_boolean(enable_video_));
@@ -112,6 +128,13 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     type = static_cast<Type>(json_object_get_int(jtype));
   }
 
+  UIType ui_type = LIVE;
+  json_object* jui_type = nullptr;
+  json_bool jui_type_exists = json_object_object_get_ex(serialized, CHANNEL_INFO_UI_TYPE_FIELD, &jui_type);
+  if (jui_type_exists) {
+    ui_type = static_cast<UIType>(json_object_get_int(jui_type));
+  }
+
   bool enable_audio = true;
   json_object* jenable_audio = nullptr;
   json_bool jenable_audio_exists =
@@ -128,7 +151,7 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     enable_video = json_object_get_boolean(jdisable_video);
   }
 
-  ChannelInfo url(sid, type, epg, enable_audio, enable_video);
+  ChannelInfo url(sid, type, ui_type, epg, enable_audio, enable_video);
   if (!url.IsValid()) {
     return common::make_error_inval();
   }
