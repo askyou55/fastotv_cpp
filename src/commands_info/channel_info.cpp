@@ -19,6 +19,7 @@
 #include <fastotv/commands_info/channel_info.h>
 
 #define CHANNEL_INFO_ID_FIELD "id"
+#define CHANNEL_INFO_TYPE_FIELD "type"
 #define CHANNEL_INFO_EPG_FIELD "epg"
 #define CHANNEL_INFO_VIDEO_ENABLE_FIELD "video"
 #define CHANNEL_INFO_AUDIO_ENABLE_FIELD "audio"
@@ -26,10 +27,11 @@
 namespace fastotv {
 namespace commands_info {
 
-ChannelInfo::ChannelInfo() : stream_id_(invalid_stream_id), epg_(), enable_audio_(true), enable_video_(true) {}
+ChannelInfo::ChannelInfo()
+    : stream_id_(invalid_stream_id), type_(PUBLIC), epg_(), enable_audio_(true), enable_video_(true) {}
 
-ChannelInfo::ChannelInfo(stream_id sid, const EpgInfo& epg, bool enable_audio, bool enable_video)
-    : stream_id_(sid), epg_(epg), enable_audio_(enable_audio), enable_video_(enable_video) {}
+ChannelInfo::ChannelInfo(stream_id sid, Type type, const EpgInfo& epg, bool enable_audio, bool enable_video)
+    : stream_id_(sid), type_(type), epg_(epg), enable_audio_(enable_audio), enable_video_(enable_video) {}
 
 bool ChannelInfo::IsValid() const {
   return stream_id_ != invalid_stream_id && epg_.IsValid();
@@ -45,6 +47,10 @@ std::string ChannelInfo::GetName() const {
 
 stream_id ChannelInfo::GetStreamID() const {
   return stream_id_;
+}
+
+ChannelInfo::Type ChannelInfo::GetType() {
+  return type_;
 }
 
 EpgInfo ChannelInfo::GetEpg() const {
@@ -71,6 +77,7 @@ common::Error ChannelInfo::SerializeFields(json_object* deserialized) const {
   }
 
   json_object_object_add(deserialized, CHANNEL_INFO_ID_FIELD, json_object_new_string(stream_id_.c_str()));
+  json_object_object_add(deserialized, CHANNEL_INFO_TYPE_FIELD, json_object_new_int(type_));
   json_object_object_add(deserialized, CHANNEL_INFO_EPG_FIELD, jepg);
   json_object_object_add(deserialized, CHANNEL_INFO_AUDIO_ENABLE_FIELD, json_object_new_boolean(enable_audio_));
   json_object_object_add(deserialized, CHANNEL_INFO_VIDEO_ENABLE_FIELD, json_object_new_boolean(enable_video_));
@@ -98,6 +105,13 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
   }
   sid = json_object_get_string(jsid);
 
+  Type type = PUBLIC;
+  json_object* jtype = nullptr;
+  json_bool jtype_exists = json_object_object_get_ex(serialized, CHANNEL_INFO_TYPE_FIELD, &jtype);
+  if (jtype_exists) {
+    type = static_cast<Type>(json_object_get_int(jtype));
+  }
+
   bool enable_audio = true;
   json_object* jenable_audio = nullptr;
   json_bool jenable_audio_exists =
@@ -114,7 +128,7 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     enable_video = json_object_get_boolean(jdisable_video);
   }
 
-  ChannelInfo url(sid, epg, enable_audio, enable_video);
+  ChannelInfo url(sid, type, epg, enable_audio, enable_video);
   if (!url.IsValid()) {
     return common::make_error_inval();
   }

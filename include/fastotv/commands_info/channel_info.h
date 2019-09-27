@@ -29,13 +29,16 @@ namespace commands_info {
 
 class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
  public:
+  enum Type { PUBLIC, PRIVATE };
+
   ChannelInfo();
-  ChannelInfo(stream_id sid, const EpgInfo& epg, bool enable_audio, bool enable_video);
+  ChannelInfo(stream_id sid, Type type, const EpgInfo& epg, bool enable_audio, bool enable_video);
 
   bool IsValid() const;
   common::uri::Url GetUrl() const;
   std::string GetName() const;
   stream_id GetStreamID() const;
+  Type GetType();
   EpgInfo GetEpg() const;
 
   bool IsEnableAudio() const;
@@ -49,6 +52,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
 
  private:
   stream_id stream_id_;
+  Type type_;
   EpgInfo epg_;
 
   bool enable_audio_;
