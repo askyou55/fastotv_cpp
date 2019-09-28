@@ -231,7 +231,8 @@ TEST(AuthInfo, serialize_deserialize) {
   const std::string login = "palec";
   const std::string password = "ff";
   const std::string device = "dev";
-  fastotv::commands_info::AuthInfo auth_info(login, password, device);
+  fastotv::commands_info::LoginInfo log(login, password);
+  fastotv::commands_info::AuthInfo auth_info(log, device);
   ASSERT_EQ(auth_info.GetLogin(), login);
   ASSERT_EQ(auth_info.GetPassword(), password);
   ASSERT_EQ(auth_info.GetDeviceID(), device);

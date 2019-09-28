@@ -19,7 +19,8 @@
 #pragma once
 
 // client commands
-#define CLIENT_ACTIVATE "client_active"
+#define CLIENT_ACTIVATE_DEVICE "client_activate_device"
+#define CLIENT_LOGIN "client_login"
 #define CLIENT_PING "client_ping"  // ping server
 #define CLIENT_GET_SERVER_INFO "get_server_info"
 #define CLIENT_GET_CHANNELS "get_channels"

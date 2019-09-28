@@ -31,9 +31,10 @@ namespace fastotv {
 namespace client {
 
 // requests
-common::Error ActiveRequest(protocol::sequance_id_t id,
-                            const commands_info::AuthInfo& params,
-                            protocol::request_t* req);
+common::Error ActivateDeviceRequest(protocol::sequance_id_t id,
+                                    const commands_info::LoginInfo& params,
+                                    protocol::request_t* req);
+common::Error LoginRequest(protocol::sequance_id_t id, const commands_info::AuthInfo& params, protocol::request_t* req);
 common::Error PingRequest(protocol::sequance_id_t id,
                           const commands_info::ServerPingInfo& params,
                           protocol::request_t* req);

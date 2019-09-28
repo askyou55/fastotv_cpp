@@ -18,38 +18,44 @@
 
 #pragma once
 
-#include <fastotv/commands_info/login_info.h>
+#include <string>
+
+#include <common/serializer/json_serializer.h>
+
+#include <fastotv/types.h>
 
 namespace fastotv {
 namespace commands_info {
 
-class AuthInfo : public LoginInfo {
+class LoginInfo : public common::serializer::JsonSerializer<LoginInfo> {
  public:
-  typedef LoginInfo base_class;
-
-  AuthInfo();
-  AuthInfo(const LoginInfo& login, device_id_t dev);
+  LoginInfo();
+  LoginInfo(const login_t& login, const std::string& password);
 
   bool IsValid() const;
 
-  device_id_t GetDeviceID() const;
-  void SetDeviceID(device_id_t dev);
+  login_t GetLogin() const;
+  void SetLogin(const login_t& login);
 
-  bool Equals(const AuthInfo& auth) const;
+  std::string GetPassword() const;
+  void SetPassword(const std::string& password);
+
+  bool Equals(const LoginInfo& auth) const;
 
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  device_id_t device_id_;
+  login_t login_;  // unique
+  std::string password_;
 };
 
-inline bool operator==(const AuthInfo& lhs, const AuthInfo& rhs) {
+inline bool operator==(const LoginInfo& lhs, const LoginInfo& rhs) {
   return lhs.Equals(rhs);
 }
 
-inline bool operator!=(const AuthInfo& x, const AuthInfo& y) {
+inline bool operator!=(const LoginInfo& x, const LoginInfo& y) {
   return !(x == y);
 }
 

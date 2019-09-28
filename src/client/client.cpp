@@ -86,15 +86,22 @@ common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id, const commands
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::Activate(const login_t& login, const std::string& password, device_id_t dev) {
-  commands_info::AuthInfo auth_info(login, password, dev);
-  return Activate(auth_info);
+common::ErrnoError Client::ActivateDevice(const commands_info::LoginInfo& login) {
+  protocol::request_t login_request;
+  common::Error err_ser = ActivateDeviceRequest(NextRequestID(), login, &login_request);
+  if (err_ser) {
+    DNOTREACHED();
+    return common::make_errno_error(err_ser->GetDescription(), EINVAL);
+  }
+
+  return WriteRequest(login_request);
 }
 
-common::ErrnoError Client::Activate(const commands_info::AuthInfo& auth) {
+common::ErrnoError Client::Login(const commands_info::AuthInfo& auth) {
   protocol::request_t auth_request;
-  common::Error err_ser = ActiveRequest(NextRequestID(), auth, &auth_request);
+  common::Error err_ser = LoginRequest(NextRequestID(), auth, &auth_request);
   if (err_ser) {
+    DNOTREACHED();
     return common::make_errno_error(err_ser->GetDescription(), EINVAL);
   }
 

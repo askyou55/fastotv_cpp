@@ -35,11 +35,11 @@ class Client : public ProtocoledClient {
   Client(common::libev::IoLoop* server, const common::net::socket_info& info);
 
   // requests
+  common::ErrnoError ActivateDevice(const commands_info::LoginInfo& login) WARN_UNUSED_RESULT;
+  common::ErrnoError Login(const commands_info::AuthInfo& auth) WARN_UNUSED_RESULT;
+
   common::ErrnoError Ping() WARN_UNUSED_RESULT;
   common::ErrnoError Ping(const commands_info::ServerPingInfo& ping) WARN_UNUSED_RESULT;
-
-  common::ErrnoError Activate(const login_t& login, const std::string& password, device_id_t dev) WARN_UNUSED_RESULT;
-  common::ErrnoError Activate(const commands_info::AuthInfo& auth) WARN_UNUSED_RESULT;
 
   common::ErrnoError GetServerInfo() WARN_UNUSED_RESULT;
   common::ErrnoError GetChannels() WARN_UNUSED_RESULT;

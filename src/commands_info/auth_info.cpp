@@ -23,20 +23,17 @@
 #include <common/convert2string.h>
 #include <common/sprintf.h>
 
-#define AUTH_INFO_LOGIN_FIELD "login"
-#define AUTH_INFO_PASSWORD_FIELD "password"
 #define AUTH_INFO_DEVICE_ID_FIELD "device_id"
 
 namespace fastotv {
 namespace commands_info {
 
-AuthInfo::AuthInfo() : login_(), password_() {}
+AuthInfo::AuthInfo() : base_class() {}
 
-AuthInfo::AuthInfo(const login_t& login, const std::string& password, device_id_t dev)
-    : login_(login), password_(password), device_id_(dev) {}
+AuthInfo::AuthInfo(const LoginInfo& login, device_id_t dev) : base_class(login), device_id_(dev) {}
 
 bool AuthInfo::IsValid() const {
-  return !login_.empty() && !password_.empty() && !device_id_.empty();
+  return base_class::IsValid() && !device_id_.empty();
 }
 
 common::Error AuthInfo::SerializeFields(json_object* deserialized) const {
@@ -44,23 +41,15 @@ common::Error AuthInfo::SerializeFields(json_object* deserialized) const {
     return common::make_error_inval();
   }
 
-  json_object_object_add(deserialized, AUTH_INFO_LOGIN_FIELD, json_object_new_string(login_.c_str()));
-  json_object_object_add(deserialized, AUTH_INFO_PASSWORD_FIELD, json_object_new_string(password_.c_str()));
   json_object_object_add(deserialized, AUTH_INFO_DEVICE_ID_FIELD, json_object_new_string(device_id_.c_str()));
-  return common::Error();
+  return base_class::SerializeFields(deserialized);
 }
 
 common::Error AuthInfo::DoDeSerialize(json_object* serialized) {
-  json_object* jlogin = nullptr;
-  json_bool jlogin_exists = json_object_object_get_ex(serialized, AUTH_INFO_LOGIN_FIELD, &jlogin);
-  if (!jlogin_exists) {
-    return common::make_error_inval();
-  }
-
-  json_object* jpass = nullptr;
-  json_bool jpass_exists = json_object_object_get_ex(serialized, AUTH_INFO_PASSWORD_FIELD, &jpass);
-  if (!jpass_exists) {
-    return common::make_error_inval();
+  base_class login;
+  common::Error err = login.DeSerialize(serialized);
+  if (err) {
+    return err;
   }
 
   json_object* jdevid = nullptr;
@@ -69,7 +58,7 @@ common::Error AuthInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
 
-  AuthInfo ainf(json_object_get_string(jlogin), json_object_get_string(jpass), json_object_get_string(jdevid));
+  AuthInfo ainf(login, json_object_get_string(jdevid));
   *this = ainf;
   return common::Error();
 }
@@ -82,24 +71,8 @@ void AuthInfo::SetDeviceID(device_id_t dev) {
   device_id_ = dev;
 }
 
-login_t AuthInfo::GetLogin() const {
-  return login_;
-}
-
-void AuthInfo::SetLogin(const login_t& login) {
-  login_ = login;
-}
-
-std::string AuthInfo::GetPassword() const {
-  return password_;
-}
-
-void AuthInfo::SetPassword(const std::string& password) {
-  password_ = password;
-}
-
 bool AuthInfo::Equals(const AuthInfo& auth) const {
-  return login_ == auth.login_ && password_ == auth.password_;
+  return base_class::Equals(auth) && device_id_ == auth.device_id_;
 }
 
 }  // namespace commands_info

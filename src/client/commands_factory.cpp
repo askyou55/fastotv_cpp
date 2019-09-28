@@ -23,9 +23,30 @@
 namespace fastotv {
 namespace client {
 
-common::Error ActiveRequest(protocol::sequance_id_t id,
-                            const commands_info::AuthInfo& params,
-                            protocol::request_t* req) {
+common::Error ActivateDeviceRequest(protocol::sequance_id_t id,
+                                    const commands_info::LoginInfo& params,
+                                    protocol::request_t* req) {
+  if (!req) {
+    return common::make_error_inval();
+  }
+
+  std::string login_str;
+  common::Error err_ser = params.SerializeToString(&login_str);
+  if (err_ser) {
+    return err_ser;
+  }
+
+  protocol::request_t lreq;
+  lreq.id = id;
+  lreq.method = CLIENT_ACTIVATE_DEVICE;
+  lreq.params = login_str;
+  *req = lreq;
+  return common::Error();
+}
+
+common::Error LoginRequest(protocol::sequance_id_t id,
+                           const commands_info::AuthInfo& params,
+                           protocol::request_t* req) {
   if (!req) {
     return common::make_error_inval();
   }
@@ -38,7 +59,7 @@ common::Error ActiveRequest(protocol::sequance_id_t id,
 
   protocol::request_t lreq;
   lreq.id = id;
-  lreq.method = CLIENT_ACTIVATE;
+  lreq.method = CLIENT_LOGIN;
   lreq.params = auth_str;
   *req = lreq;
   return common::Error();
