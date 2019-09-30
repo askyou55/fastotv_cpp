@@ -49,6 +49,10 @@ timestamp_t ServerPingInfo::GetTimeStamp() const {
   return timestamp_;
 }
 
+bool ServerPingInfo::Equals(const ServerPingInfo& ping) const {
+  return timestamp_ == ping.timestamp_;
+}
+
 ClientPingInfo::ClientPingInfo() : timestamp_(common::time::current_utc_mstime()) {}
 
 common::Error ClientPingInfo::SerializeFields(json_object* deserialized) const {
@@ -70,6 +74,10 @@ common::Error ClientPingInfo::DoDeSerialize(json_object* serialized) {
 
 timestamp_t ClientPingInfo::GetTimeStamp() const {
   return timestamp_;
+}
+
+bool ClientPingInfo::Equals(const ClientPingInfo& ping) const {
+  return timestamp_ == ping.timestamp_;
 }
 
 }  // namespace commands_info

@@ -32,6 +32,8 @@ class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
 
   common::net::HostAndPort GetBandwidthHost() const;
 
+  bool Equals(const ServerInfo& serv) const;
+
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
@@ -39,6 +41,14 @@ class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
  private:
   common::net::HostAndPort bandwidth_host_;
 };
+
+inline bool operator==(const ServerInfo& lhs, const ServerInfo& rhs) {
+  return lhs.Equals(rhs);
+}
+
+inline bool operator!=(const ServerInfo& x, const ServerInfo& y) {
+  return !(x == y);
+}
 
 }  // namespace commands_info
 }  // namespace fastotv

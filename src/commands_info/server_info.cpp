@@ -53,5 +53,9 @@ common::net::HostAndPort ServerInfo::GetBandwidthHost() const {
   return bandwidth_host_;
 }
 
+bool ServerInfo::Equals(const ServerInfo& serv) const {
+  return serv.bandwidth_host_ == bandwidth_host_;
+}
+
 }  // namespace commands_info
 }  // namespace fastotv

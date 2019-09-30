@@ -52,6 +52,10 @@ inline bool operator==(const RuntimeChannelLiteInfo& left, const RuntimeChannelL
   return left.Equals(right);
 }
 
+inline bool operator!=(const RuntimeChannelLiteInfo& x, const RuntimeChannelLiteInfo& y) {
+  return !(x == y);
+}
+
 class RuntimeChannelInfo : public RuntimeChannelLiteInfo {
  public:
   typedef RuntimeChannelLiteInfo base_class;

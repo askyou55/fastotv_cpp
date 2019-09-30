@@ -31,6 +31,8 @@ class ServerPingInfo : public common::serializer::JsonSerializer<ServerPingInfo>
 
   timestamp_t GetTimeStamp() const;
 
+  bool Equals(const ServerPingInfo& ping) const;
+
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
@@ -38,6 +40,14 @@ class ServerPingInfo : public common::serializer::JsonSerializer<ServerPingInfo>
  private:
   timestamp_t timestamp_;  // utc time
 };
+
+inline bool operator==(const ServerPingInfo& lhs, const ServerPingInfo& rhs) {
+  return lhs.Equals(rhs);
+}
+
+inline bool operator!=(const ServerPingInfo& x, const ServerPingInfo& y) {
+  return !(x == y);
+}
 
 class ClientPingInfo : public common::serializer::JsonSerializer<ClientPingInfo> {
  public:
@@ -45,6 +55,8 @@ class ClientPingInfo : public common::serializer::JsonSerializer<ClientPingInfo>
 
   timestamp_t GetTimeStamp() const;
 
+  bool Equals(const ClientPingInfo& ping) const;
+
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
@@ -52,6 +64,14 @@ class ClientPingInfo : public common::serializer::JsonSerializer<ClientPingInfo>
  private:
   timestamp_t timestamp_;  // utc time
 };
+
+inline bool operator==(const ClientPingInfo& lhs, const ClientPingInfo& rhs) {
+  return lhs.Equals(rhs);
+}
+
+inline bool operator!=(const ClientPingInfo& x, const ClientPingInfo& y) {
+  return !(x == y);
+}
 
 }  // namespace commands_info
 }  // namespace fastotv
