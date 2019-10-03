@@ -19,6 +19,7 @@
 #include <fastotv/commands_info/client_info.h>
 
 #define CLIENT_INFO_LOGIN_FIELD "login"
+#define CLIENT_INFO_DEVICE_ID_FIELD "device_id"
 #define CLIENT_INFO_BANDWIDTH_FIELD "bandwidth"
 #define CLIENT_INFO_OS_FIELD "os"
 #define CLIENT_INFO_CPU_FIELD "cpu"
@@ -26,13 +27,14 @@
 namespace fastotv {
 namespace commands_info {
 
-ClientInfo::ClientInfo() : login_(), os_(), cpu_brand_(), bandwidth_(0) {}
+ClientInfo::ClientInfo() : login_(), device_id_(), os_(), cpu_brand_(), bandwidth_(0) {}
 
 ClientInfo::ClientInfo(const login_t& login,
+                       const device_id_t& device_id,
                        const OperationSystemInfo& os,
                        const std::string& cpu_brand,
                        bandwidth_t bandwidth)
-    : login_(login), os_(os), cpu_brand_(cpu_brand), bandwidth_(bandwidth) {}
+    : login_(login), device_id_(device_id), os_(os), cpu_brand_(cpu_brand), bandwidth_(bandwidth) {}
 
 bool ClientInfo::IsValid() const {
   return !login_.empty();
@@ -50,6 +52,7 @@ common::Error ClientInfo::SerializeFields(json_object* deserialized) const {
   }
 
   json_object_object_add(deserialized, CLIENT_INFO_LOGIN_FIELD, json_object_new_string(login_.c_str()));
+  json_object_object_add(deserialized, CLIENT_INFO_DEVICE_ID_FIELD, json_object_new_string(device_id_.c_str()));
   json_object_object_add(deserialized, CLIENT_INFO_OS_FIELD, os);
   json_object_object_add(deserialized, CLIENT_INFO_CPU_FIELD, json_object_new_string(cpu_brand_.c_str()));
   json_object_object_add(deserialized, CLIENT_INFO_BANDWIDTH_FIELD, json_object_new_int64(bandwidth_));
@@ -69,6 +72,13 @@ common::Error ClientInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
   inf.login_ = login;
+
+  json_object* jdevice_id = nullptr;
+  json_bool jdevice_id_exists = json_object_object_get_ex(serialized, CLIENT_INFO_DEVICE_ID_FIELD, &jdevice_id);
+  if (!jdevice_id_exists) {
+    return common::make_error_inval();
+  }
+  inf.device_id_ = json_object_get_string(jdevice_id);
 
   json_object* jos = nullptr;
   json_bool jos_exists = json_object_object_get_ex(serialized, CLIENT_INFO_OS_FIELD, &jos);

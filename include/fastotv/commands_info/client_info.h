@@ -30,7 +30,11 @@ namespace commands_info {
 class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
  public:
   ClientInfo();
-  ClientInfo(const login_t& login, const OperationSystemInfo& os, const std::string& cpu_brand, bandwidth_t bandwidth);
+  ClientInfo(const login_t& login,
+             const device_id_t& device_id,
+             const OperationSystemInfo& os,
+             const std::string& cpu_brand,
+             bandwidth_t bandwidth);
 
   bool IsValid() const;
 
@@ -47,6 +51,7 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
 
  private:
   login_t login_;
+  device_id_t device_id_;
   OperationSystemInfo os_;
   std::string cpu_brand_;
   bandwidth_t bandwidth_;

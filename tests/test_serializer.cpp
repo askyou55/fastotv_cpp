@@ -170,6 +170,7 @@ TEST(ProgrammeInfo, serialize_deserialize) {
 
 TEST(ClientInfo, serialize_deserialize) {
   const fastotv::login_t login = "Alex";
+  const fastotv::device_id_t deva = "12345";
   const std::string os = "Os";
   const std::string os_version = "123";
   const std::string cpu_brand = "brand";
@@ -182,7 +183,7 @@ TEST(ClientInfo, serialize_deserialize) {
   ASSERT_EQ(ops.GetRamTotal(), ram_total);
   ASSERT_EQ(ops.GetRamFree(), ram_free);
 
-  fastotv::commands_info::ClientInfo cinf(login, ops, cpu_brand, bandwidth);
+  fastotv::commands_info::ClientInfo cinf(login, deva, ops, cpu_brand, bandwidth);
   ASSERT_EQ(cinf.GetLogin(), login);
   ASSERT_EQ(cinf.GetOs(), ops);
   ASSERT_EQ(cinf.GetCpuBrand(), cpu_brand);
