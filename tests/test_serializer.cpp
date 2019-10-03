@@ -52,7 +52,7 @@ TEST(ChannelInfo, serialize_deserialize) {
   ASSERT_EQ(epg_info, depg);
 
   fastotv::commands_info::ChannelInfo http_uri(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC, fastotv::PROXY,
-                                               std::string(), {}, epg_info, enable_audio, enable_video);
+                                               std::string(), epg_info, enable_audio, enable_video);
   ASSERT_EQ(http_uri.GetName(), name);
   ASSERT_EQ(http_uri.GetStreamID(), stream_id);
   ASSERT_EQ(http_uri.GetUrl(), url);
@@ -213,7 +213,7 @@ TEST(channels_t, serialize_deserialize) {
   fastotv::commands_info::ChannelsInfo channels;
   fastotv::commands_info::EpgInfo epg_info(stream_id, url, name);
   channels.AddChannel(fastotv::commands_info::ChannelInfo(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC,
-                                                          fastotv::PROXY, std::string(), {}, epg_info, enable_audio,
+                                                          fastotv::PROXY, std::string(), epg_info, enable_audio,
                                                           enable_video));
   ASSERT_EQ(channels.GetSize(), 1);
 

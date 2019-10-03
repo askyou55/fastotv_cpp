@@ -19,7 +19,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 #include <common/uri/url.h>  // for Uri
 
@@ -32,14 +31,12 @@ namespace commands_info {
 class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
  public:
   enum Type { PUBLIC, PRIVATE };
-  typedef std::vector<std::string> tags_t;
 
   ChannelInfo();
   ChannelInfo(stream_id sid,
               Type type,
               StreamType stype,
               const std::string& group,
-              const tags_t& tags,
               const EpgInfo& epg,
               bool enable_audio,
               bool enable_video);
@@ -52,7 +49,6 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   StreamType GetStreamType() const;
   EpgInfo GetEpg() const;
   std::string GetGroup() const;
-  tags_t GetTags() const;
 
   bool IsEnableAudio() const;
   bool IsEnableVideo() const;
@@ -68,7 +64,6 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   Type type_;
   StreamType stream_type_;
   std::string group_;
-  tags_t tags_;
   EpgInfo epg_;
 
   bool enable_audio_;
