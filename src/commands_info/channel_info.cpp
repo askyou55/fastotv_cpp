@@ -20,7 +20,7 @@
 
 #define CHANNEL_INFO_ID_FIELD "id"
 #define CHANNEL_INFO_TYPE_FIELD "type"
-#define CHANNEL_INFO_UI_TYPE_FIELD "ui_type"
+#define CHANNEL_INFO_STEAM_TYPE_FIELD "stream_type"
 #define CHANNEL_INFO_GROUP_FIELD "group"
 #define CHANNEL_INFO_TAGS_FIELD "tags"
 #define CHANNEL_INFO_EPG_FIELD "epg"
@@ -33,7 +33,7 @@ namespace commands_info {
 ChannelInfo::ChannelInfo()
     : stream_id_(invalid_stream_id),
       type_(PUBLIC),
-      ui_type_(LIVE),
+      stream_type_(PROXY),
       group_(),
       tags_(),
       epg_(),
@@ -42,7 +42,7 @@ ChannelInfo::ChannelInfo()
 
 ChannelInfo::ChannelInfo(stream_id sid,
                          Type type,
-                         UIType utype,
+                         StreamType stype,
                          const std::string& group,
                          const tags_t& tags,
                          const EpgInfo& epg,
@@ -50,7 +50,7 @@ ChannelInfo::ChannelInfo(stream_id sid,
                          bool enable_video)
     : stream_id_(sid),
       type_(type),
-      ui_type_(utype),
+      stream_type_(stype),
       group_(group),
       tags_(tags),
       epg_(epg),
@@ -77,8 +77,8 @@ ChannelInfo::Type ChannelInfo::GetType() const {
   return type_;
 }
 
-ChannelInfo::UIType ChannelInfo::GetUIType() const {
-  return ui_type_;
+StreamType ChannelInfo::GetStreamType() const {
+  return stream_type_;
 }
 
 EpgInfo ChannelInfo::GetEpg() const {
@@ -114,7 +114,7 @@ common::Error ChannelInfo::SerializeFields(json_object* deserialized) const {
 
   json_object_object_add(deserialized, CHANNEL_INFO_ID_FIELD, json_object_new_string(stream_id_.c_str()));
   json_object_object_add(deserialized, CHANNEL_INFO_TYPE_FIELD, json_object_new_int(type_));
-  json_object_object_add(deserialized, CHANNEL_INFO_UI_TYPE_FIELD, json_object_new_int(ui_type_));
+  json_object_object_add(deserialized, CHANNEL_INFO_STEAM_TYPE_FIELD, json_object_new_int(stream_type_));
   json_object_object_add(deserialized, CHANNEL_INFO_GROUP_FIELD, json_object_new_string(group_.c_str()));
   json_object* jtags = json_object_new_array();
   for (auto tag : tags_) {
@@ -158,11 +158,11 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     type = static_cast<Type>(json_object_get_int(jtype));
   }
 
-  UIType ui_type = LIVE;
+  StreamType ui_type = PROXY;
   json_object* jui_type = nullptr;
-  json_bool jui_type_exists = json_object_object_get_ex(serialized, CHANNEL_INFO_UI_TYPE_FIELD, &jui_type);
+  json_bool jui_type_exists = json_object_object_get_ex(serialized, CHANNEL_INFO_STEAM_TYPE_FIELD, &jui_type);
   if (jui_type_exists) {
-    ui_type = static_cast<UIType>(json_object_get_int(jui_type));
+    ui_type = static_cast<StreamType>(json_object_get_int(jui_type));
   }
 
   std::string group;

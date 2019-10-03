@@ -24,6 +24,7 @@
 #include <common/uri/url.h>  // for Uri
 
 #include <fastotv/commands_info/epg_info.h>
+#include <fastotv/types.h>
 
 namespace fastotv {
 namespace commands_info {
@@ -31,13 +32,12 @@ namespace commands_info {
 class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
  public:
   enum Type { PUBLIC, PRIVATE };
-  enum UIType { LIVE = 0, RECORD = 1, CATCHUP = 2, VOD = 3 };
   typedef std::vector<std::string> tags_t;
 
   ChannelInfo();
   ChannelInfo(stream_id sid,
               Type type,
-              UIType utype,
+              StreamType stype,
               const std::string& group,
               const tags_t& tags,
               const EpgInfo& epg,
@@ -49,7 +49,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   std::string GetName() const;
   stream_id GetStreamID() const;
   Type GetType() const;
-  UIType GetUIType() const;
+  StreamType GetStreamType() const;
   EpgInfo GetEpg() const;
   std::string GetGroup() const;
   tags_t GetTags() const;
@@ -66,7 +66,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
  private:
   stream_id stream_id_;
   Type type_;
-  UIType ui_type_;
+  StreamType stream_type_;
   std::string group_;
   tags_t tags_;
   EpgInfo epg_;

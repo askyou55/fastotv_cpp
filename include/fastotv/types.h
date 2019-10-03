@@ -33,4 +33,19 @@ typedef std::string user_id_t;         // mongodb/redis id in json
 typedef size_t bandwidth_t;            // bytes/s
 typedef common::time64_t timestamp_t;  // millisecond
 
+enum StreamType : int {
+  PROXY = 0,
+  RELAY = 1,
+  ENCODE = 2,
+  TIMESHIFT_PLAYER = 3,
+  TIMESHIFT_RECORDER = 4,
+  CATCHUP = 5,
+  TEST_LIFE = 6,
+  VOD_RELAY = 7,
+  VOD_ENCODE = 8,
+  COD_RELAY = 9,
+  COD_ENCODE = 10,
+  SCREEN  // for inner use
+};
+
 }  // namespace fastotv
