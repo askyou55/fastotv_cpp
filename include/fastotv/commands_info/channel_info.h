@@ -37,6 +37,8 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
               Type type,
               StreamType stype,
               const std::string& group,
+              const std::string& description,
+              const common::uri::Url& preview_icon,
               const EpgInfo& epg,
               bool enable_audio,
               bool enable_video);
@@ -64,6 +66,8 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   Type type_;
   StreamType stream_type_;
   std::string group_;
+  std::string description_;
+  common::uri::Url preview_icon_;
   EpgInfo epg_;
 
   bool enable_audio_;

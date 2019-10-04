@@ -22,6 +22,8 @@
 #define CHANNEL_INFO_TYPE_FIELD "type"
 #define CHANNEL_INFO_STEAM_TYPE_FIELD "stream_type"
 #define CHANNEL_INFO_GROUP_FIELD "group"
+#define CHANNEL_PREVIEW_ICON_FIELD "preview_icon"
+#define CHANNEL_DESCRIPTION_FIELD "description"
 #define CHANNEL_INFO_EPG_FIELD "epg"
 #define CHANNEL_INFO_VIDEO_ENABLE_FIELD "video"
 #define CHANNEL_INFO_AUDIO_ENABLE_FIELD "audio"
@@ -34,6 +36,8 @@ ChannelInfo::ChannelInfo()
       type_(PUBLIC),
       stream_type_(PROXY),
       group_(),
+      description_(),
+      preview_icon_(),
       epg_(),
       enable_audio_(true),
       enable_video_(true) {}
@@ -42,6 +46,8 @@ ChannelInfo::ChannelInfo(stream_id sid,
                          Type type,
                          StreamType stype,
                          const std::string& group,
+                         const std::string& description,
+                         const common::uri::Url& preview_icon,
                          const EpgInfo& epg,
                          bool enable_audio,
                          bool enable_video)
@@ -49,6 +55,8 @@ ChannelInfo::ChannelInfo(stream_id sid,
       type_(type),
       stream_type_(stype),
       group_(group),
+      description_(description),
+      preview_icon_(preview_icon),
       epg_(epg),
       enable_audio_(enable_audio),
       enable_video_(enable_video) {}
@@ -108,6 +116,9 @@ common::Error ChannelInfo::SerializeFields(json_object* deserialized) const {
   json_object_object_add(deserialized, CHANNEL_INFO_TYPE_FIELD, json_object_new_int(type_));
   json_object_object_add(deserialized, CHANNEL_INFO_STEAM_TYPE_FIELD, json_object_new_int(stream_type_));
   json_object_object_add(deserialized, CHANNEL_INFO_GROUP_FIELD, json_object_new_string(group_.c_str()));
+  const std::string preview_icon_str = preview_icon_.GetUrl();
+  json_object_object_add(deserialized, CHANNEL_PREVIEW_ICON_FIELD, json_object_new_string(preview_icon_str.c_str()));
+  json_object_object_add(deserialized, CHANNEL_DESCRIPTION_FIELD, json_object_new_string(description_.c_str()));
   json_object_object_add(deserialized, CHANNEL_INFO_EPG_FIELD, jepg);
   json_object_object_add(deserialized, CHANNEL_INFO_AUDIO_ENABLE_FIELD, json_object_new_boolean(enable_audio_));
   json_object_object_add(deserialized, CHANNEL_INFO_VIDEO_ENABLE_FIELD, json_object_new_boolean(enable_video_));
@@ -156,6 +167,20 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     group = json_object_get_string(jgroup);
   }
 
+  common::uri::Url preview_url;
+  json_object* jpreview = nullptr;
+  json_bool jpreview_exists = json_object_object_get_ex(serialized, CHANNEL_PREVIEW_ICON_FIELD, &jpreview);
+  if (!jpreview_exists) {
+    preview_url = common::uri::Url(json_object_get_string(jpreview));
+  }
+
+  std::string description;
+  json_object* jdescription = nullptr;
+  json_bool jdescription_exists = json_object_object_get_ex(serialized, CHANNEL_DESCRIPTION_FIELD, &jdescription);
+  if (jdescription_exists) {
+    description = json_object_get_string(jdescription);
+  }
+
   bool enable_audio = true;
   json_object* jenable_audio = nullptr;
   json_bool jenable_audio_exists =
@@ -172,7 +197,7 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     enable_video = json_object_get_boolean(jdisable_video);
   }
 
-  ChannelInfo url(sid, type, ui_type, group, epg, enable_audio, enable_video);
+  ChannelInfo url(sid, type, ui_type, group, description, preview_url, epg, enable_audio, enable_video);
   if (!url.IsValid()) {
     return common::make_error_inval();
   }
