@@ -44,12 +44,26 @@ common::Error PingRequest(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp) {
+common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id,
+                                            const commands_info::DevicesInfo& params,
+                                            protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }
 
-  *resp = protocol::response_t::MakeMessage(id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage());
+  json_object* obj = nullptr;
+  common::Error err_ser = params.Serialize(&obj);
+  if (err_ser) {
+    return err_ser;
+  }
+
+  json_object* parent = json_object_new_object();
+  json_object_object_add(parent, "devices", obj);
+  const std::string devices_json = json_object_get_string(parent);
+  json_object_put(parent);
+
+  *resp = protocol::response_t::MakeMessage(
+      id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage(devices_json));
   return common::Error();
 }
 
@@ -139,11 +153,16 @@ common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
     return common::make_error_inval();
   }
 
-  std::string chan_json;
-  common::Error err_ser = params.SerializeToString(&chan_json);
+  json_object* obj = nullptr;
+  common::Error err_ser = params.Serialize(&obj);
   if (err_ser) {
     return err_ser;
   }
+
+  json_object* parent = json_object_new_object();
+  json_object_object_add(parent, "channels", obj);
+  const std::string chan_json = json_object_get_string(parent);
+  json_object_put(parent);
 
   *resp =
       protocol::response_t::MakeMessage(id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage(chan_json));

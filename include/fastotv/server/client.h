@@ -18,6 +18,7 @@
 
 #include <fastotv/client.h>
 #include <fastotv/commands_info/channels_info.h>
+#include <fastotv/commands_info/devices_info.h>
 #include <fastotv/commands_info/ping_info.h>
 #include <fastotv/commands_info/runtime_channel_info.h>
 #include <fastotv/protocol/types.h>
@@ -38,7 +39,8 @@ class Client : public ProtocoledClient {
   common::ErrnoError CheckLoginFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
 
   common::ErrnoError ActivateDeviceFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
-  common::ErrnoError ActivateDeviceSuccess(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
+  common::ErrnoError ActivateDeviceSuccess(protocol::sequance_id_t id,
+                                           const commands_info::DevicesInfo& devices) WARN_UNUSED_RESULT;
 
   common::ErrnoError LoginFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
   common::ErrnoError LoginSuccess(protocol::sequance_id_t id) WARN_UNUSED_RESULT;

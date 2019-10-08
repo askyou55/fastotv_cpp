@@ -60,9 +60,10 @@ common::ErrnoError Client::ActivateDeviceFail(protocol::sequance_id_t id, common
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::ActivateDeviceSuccess(protocol::sequance_id_t id) {
+common::ErrnoError Client::ActivateDeviceSuccess(protocol::sequance_id_t id,
+                                                 const commands_info::DevicesInfo& devices) {
   protocol::response_t resp;
-  common::Error err_ser = ActivateDeviceResponseSuccess(id, &resp);
+  common::Error err_ser = ActivateDeviceResponseSuccess(id, devices, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }

@@ -23,6 +23,7 @@
 #include <fastotv/protocol/types.h>
 
 #include <fastotv/commands_info/channels_info.h>
+#include <fastotv/commands_info/devices_info.h>
 #include <fastotv/commands_info/ping_info.h>
 #include <fastotv/commands_info/runtime_channel_info.h>
 #include <fastotv/commands_info/server_info.h>
@@ -36,7 +37,9 @@ common::Error PingRequest(protocol::sequance_id_t id,
                           protocol::request_t* req);
 
 // responses
-common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
+common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id,
+                                            const commands_info::DevicesInfo& params,
+                                            protocol::response_t* resp);
 common::Error ActivateDeviceResponseFail(protocol::sequance_id_t id,
                                          const std::string& error_text,
                                          protocol::response_t* resp);
