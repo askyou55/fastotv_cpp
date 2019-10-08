@@ -33,7 +33,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   enum Type { PUBLIC, PRIVATE };
 
   ChannelInfo();
-  ChannelInfo(stream_id sid,
+  ChannelInfo(stream_id_t sid,
               Type type,
               StreamType stype,
               const std::string& group,
@@ -46,7 +46,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   bool IsValid() const;
   common::uri::Url GetUrl() const;
   std::string GetName() const;
-  stream_id GetStreamID() const;
+  stream_id_t GetStreamID() const;
   Type GetType() const;
   StreamType GetStreamType() const;
   EpgInfo GetEpg() const;
@@ -62,7 +62,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  stream_id stream_id_;
+  stream_id_t stream_id_;
   Type type_;
   StreamType stream_type_;
   std::string group_;

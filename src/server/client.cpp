@@ -153,7 +153,7 @@ common::ErrnoError Client::GetChannelsSuccess(protocol::sequance_id_t id, const 
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id, stream_id sid, size_t watchers) {
+common::ErrnoError Client::GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id, stream_id_t sid, size_t watchers) {
   commands_info::RuntimeChannelInfo channel(sid, watchers);
   return GetRuntimeChannelInfoSuccess(id, channel);
 }

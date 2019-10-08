@@ -43,7 +43,7 @@ class Client : public ProtocoledClient {
 
   common::ErrnoError GetServerInfo() WARN_UNUSED_RESULT;
   common::ErrnoError GetChannels() WARN_UNUSED_RESULT;
-  common::ErrnoError GetRuntimeChannelInfo(stream_id sid) WARN_UNUSED_RESULT;
+  common::ErrnoError GetRuntimeChannelInfo(stream_id_t sid) WARN_UNUSED_RESULT;
 
   // responses
   common::ErrnoError NotificationTextOK(protocol::sequance_id_t id) WARN_UNUSED_RESULT;

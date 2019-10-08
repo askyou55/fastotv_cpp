@@ -20,34 +20,38 @@
 
 #include <string>
 
-#include <common/types.h>  // for time64_t
+#include <common/serializer/json_serializer.h>
+
+#include <fastotv/types.h>
 
 namespace fastotv {
+namespace commands_info {
 
-typedef std::string stream_id_t;  // must be unique
-static const stream_id_t invalid_stream_id = stream_id_t();
+class DeviceInfo : public common::serializer::JsonSerializer<DeviceInfo> {
+ public:
+  DeviceInfo();
+  DeviceInfo(device_id_t did, const std::string& name);
 
-typedef std::string login_t;           // unique, user email now
-typedef std::string device_id_t;       // unique, mongodb id, registered by user
-typedef std::string user_id_t;         // mongodb/redis id in json
-typedef size_t bandwidth_t;            // bytes/s
-typedef common::time64_t timestamp_t;  // millisecond
+  bool IsValid() const;
 
-static const device_id_t invalid_device_id = device_id_t();
+  bool Equals(const DeviceInfo& url) const;
 
-enum StreamType : int {
-  PROXY = 0,
-  RELAY = 1,
-  ENCODE = 2,
-  TIMESHIFT_PLAYER = 3,
-  TIMESHIFT_RECORDER = 4,
-  CATCHUP = 5,
-  TEST_LIFE = 6,
-  VOD_RELAY = 7,
-  VOD_ENCODE = 8,
-  COD_RELAY = 9,
-  COD_ENCODE = 10,
-  SCREEN  // for inner use
+ protected:
+  common::Error DoDeSerialize(json_object* serialized) override;
+  common::Error SerializeFields(json_object* deserialized) const override;
+
+ private:
+  device_id_t did_;
+  std::string name_;
 };
 
+inline bool operator==(const DeviceInfo& left, const DeviceInfo& right) {
+  return left.Equals(right);
+}
+
+inline bool operator!=(const DeviceInfo& x, const DeviceInfo& y) {
+  return !(x == y);
+}
+
+}  // namespace commands_info
 }  // namespace fastotv

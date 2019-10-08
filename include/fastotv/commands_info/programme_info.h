@@ -30,12 +30,12 @@ namespace commands_info {
 class ProgrammeInfo : public common::serializer::JsonSerializer<ProgrammeInfo> {
  public:
   ProgrammeInfo();
-  ProgrammeInfo(stream_id id, timestamp_t start_time, timestamp_t stop_time, const std::string& title);
+  ProgrammeInfo(stream_id_t id, timestamp_t start_time, timestamp_t stop_time, const std::string& title);
 
   bool IsValid() const;
 
-  void SetChannel(stream_id channel);
-  stream_id GetChannel() const;
+  void SetChannel(stream_id_t channel);
+  stream_id_t GetChannel() const;
 
   void SetStart(timestamp_t start);  // UTC
   timestamp_t GetStart() const;
@@ -53,7 +53,7 @@ class ProgrammeInfo : public common::serializer::JsonSerializer<ProgrammeInfo> {
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  stream_id channel_;
+  stream_id_t channel_;
   timestamp_t start_time_;  // utc time
   timestamp_t stop_time_;   // utc time
   std::string title_;

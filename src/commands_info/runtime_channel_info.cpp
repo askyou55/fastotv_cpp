@@ -26,7 +26,7 @@ namespace commands_info {
 
 RuntimeChannelLiteInfo::RuntimeChannelLiteInfo() : RuntimeChannelLiteInfo(invalid_stream_id) {}
 
-RuntimeChannelLiteInfo::RuntimeChannelLiteInfo(stream_id sid) : sid_(sid) {}
+RuntimeChannelLiteInfo::RuntimeChannelLiteInfo(stream_id_t sid) : sid_(sid) {}
 
 RuntimeChannelLiteInfo::~RuntimeChannelLiteInfo() {}
 
@@ -34,11 +34,11 @@ bool RuntimeChannelLiteInfo::IsValid() const {
   return sid_ != invalid_stream_id;
 }
 
-void RuntimeChannelLiteInfo::SetStreamID(stream_id sid) {
+void RuntimeChannelLiteInfo::SetStreamID(stream_id_t sid) {
   sid_ = sid;
 }
 
-stream_id RuntimeChannelLiteInfo::GetStreamID() const {
+stream_id_t RuntimeChannelLiteInfo::GetStreamID() const {
   return sid_;
 }
 
@@ -54,7 +54,7 @@ common::Error RuntimeChannelLiteInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
 
-  stream_id cid = json_object_get_string(jcid);
+  stream_id_t cid = json_object_get_string(jcid);
   if (cid == invalid_stream_id) {
     return common::make_error_inval();
   }
@@ -75,7 +75,7 @@ common::Error RuntimeChannelLiteInfo::SerializeFields(json_object* deserialized)
 
 RuntimeChannelInfo::RuntimeChannelInfo() : base_class(), watchers_(0) {}
 
-RuntimeChannelInfo::RuntimeChannelInfo(stream_id channel_id, size_t watchers)
+RuntimeChannelInfo::RuntimeChannelInfo(stream_id_t channel_id, size_t watchers)
     : base_class(channel_id), watchers_(watchers) {}
 
 RuntimeChannelInfo::~RuntimeChannelInfo() {}

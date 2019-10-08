@@ -39,6 +39,8 @@ SET(PROTOCOL_HEADERS
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/client_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/operation_system_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/programme_info.h
+  ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/device_info.h
+  ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/devices_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/channel_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/epg_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/runtime_channel_info.h
@@ -63,6 +65,8 @@ SET(PROTOCOL_SOURCES
   ${CMAKE_SOURCE_DIR}/src/commands_info/operation_system_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/client_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/programme_info.cpp
+  ${CMAKE_SOURCE_DIR}/src/commands_info/device_info.cpp
+  ${CMAKE_SOURCE_DIR}/src/commands_info/devices_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/channel_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/epg_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/runtime_channel_info.cpp

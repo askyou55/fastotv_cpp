@@ -42,7 +42,7 @@ ChannelInfo::ChannelInfo()
       enable_audio_(true),
       enable_video_(true) {}
 
-ChannelInfo::ChannelInfo(stream_id sid,
+ChannelInfo::ChannelInfo(stream_id_t sid,
                          Type type,
                          StreamType stype,
                          const std::string& group,
@@ -73,7 +73,7 @@ std::string ChannelInfo::GetName() const {
   return epg_.GetDisplayName();
 }
 
-stream_id ChannelInfo::GetStreamID() const {
+stream_id_t ChannelInfo::GetStreamID() const {
   return stream_id_;
 }
 
@@ -138,7 +138,7 @@ common::Error ChannelInfo::DoDeSerialize(json_object* serialized) {
     return err;
   }
 
-  stream_id sid;
+  stream_id_t sid;
   json_object* jsid = nullptr;
   json_bool jsid_exists = json_object_object_get_ex(serialized, CHANNEL_INFO_ID_FIELD, &jsid);
   if (!jsid_exists) {

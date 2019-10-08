@@ -30,13 +30,13 @@ namespace commands_info {
 class RuntimeChannelLiteInfo : public common::serializer::JsonSerializer<RuntimeChannelLiteInfo> {
  public:
   RuntimeChannelLiteInfo();
-  explicit RuntimeChannelLiteInfo(stream_id sid);
+  explicit RuntimeChannelLiteInfo(stream_id_t sid);
   ~RuntimeChannelLiteInfo();
 
   bool IsValid() const;
 
-  void SetStreamID(stream_id sid);
-  stream_id GetStreamID() const;
+  void SetStreamID(stream_id_t sid);
+  stream_id_t GetStreamID() const;
 
   bool Equals(const RuntimeChannelLiteInfo& inf) const;
 
@@ -45,7 +45,7 @@ class RuntimeChannelLiteInfo : public common::serializer::JsonSerializer<Runtime
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  stream_id sid_;
+  stream_id_t sid_;
 };
 
 inline bool operator==(const RuntimeChannelLiteInfo& left, const RuntimeChannelLiteInfo& right) {
@@ -60,7 +60,7 @@ class RuntimeChannelInfo : public RuntimeChannelLiteInfo {
  public:
   typedef RuntimeChannelLiteInfo base_class;
   RuntimeChannelInfo();
-  RuntimeChannelInfo(stream_id channel_id, size_t watchers);
+  RuntimeChannelInfo(stream_id_t channel_id, size_t watchers);
   ~RuntimeChannelInfo() override;
 
   void SetWatchersCount(size_t count);

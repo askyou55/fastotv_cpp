@@ -128,7 +128,7 @@ common::Error EpgInfo::SerializeFields(json_object* deserialized) const {
 common::Error EpgInfo::DoDeSerialize(json_object* serialized) {
   json_object* jid = nullptr;
   json_bool jid_exists = json_object_object_get_ex(serialized, EPG_INFO_ID_FIELD, &jid);
-  stream_id id;
+  stream_id_t id;
   if (jid_exists) {
     id = json_object_get_string(jid);
   }

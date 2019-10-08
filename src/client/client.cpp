@@ -131,7 +131,7 @@ common::ErrnoError Client::GetChannels() {
   return WriteRequest(server_info_request);
 }
 
-common::ErrnoError Client::GetRuntimeChannelInfo(stream_id sid) {
+common::ErrnoError Client::GetRuntimeChannelInfo(stream_id_t sid) {
   protocol::request_t run_channels_request;
   commands_info::RuntimeChannelLiteInfo run(sid);
   common::Error err_ser = GetRuntimeChannelInfoRequest(NextRequestID(), run, &run_channels_request);
