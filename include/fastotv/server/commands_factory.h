@@ -36,10 +36,13 @@ common::Error PingRequest(protocol::sequance_id_t id,
                           protocol::request_t* req);
 
 // responses
-common::Error ActivateResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
-common::Error ActivateResponseFail(protocol::sequance_id_t id,
-                                   const std::string& error_text,
-                                   protocol::response_t* resp);
+common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
+common::Error ActivateDeviceResponseFail(protocol::sequance_id_t id,
+                                         const std::string& error_text,
+                                         protocol::response_t* resp);
+
+common::Error LoginResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
+common::Error LoginResponseFail(protocol::sequance_id_t id, const std::string& error_text, protocol::response_t* resp);
 
 // client ping
 common::Error PingResponseSuccess(protocol::sequance_id_t id,

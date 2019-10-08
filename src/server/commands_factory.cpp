@@ -44,7 +44,7 @@ common::Error PingRequest(protocol::sequance_id_t id,
   return common::Error();
 }
 
-common::Error ActivateResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp) {
+common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }
@@ -53,9 +53,28 @@ common::Error ActivateResponseSuccess(protocol::sequance_id_t id, protocol::resp
   return common::Error();
 }
 
-common::Error ActivateResponseFail(protocol::sequance_id_t id,
-                                   const std::string& error_text,
-                                   protocol::response_t* resp) {
+common::Error ActivateDeviceResponseFail(protocol::sequance_id_t id,
+                                         const std::string& error_text,
+                                         protocol::response_t* resp) {
+  if (!resp) {
+    return common::make_error_inval();
+  }
+
+  *resp = protocol::response_t::MakeError(
+      id, common::protocols::json_rpc::JsonRPCError::MakeInternalErrorFromText(error_text));
+  return common::Error();
+}
+
+common::Error LoginResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp) {
+  if (!resp) {
+    return common::make_error_inval();
+  }
+
+  *resp = protocol::response_t::MakeMessage(id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage());
+  return common::Error();
+}
+
+common::Error LoginResponseFail(protocol::sequance_id_t id, const std::string& error_text, protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }

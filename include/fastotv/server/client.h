@@ -35,10 +35,13 @@ class Client : public ProtocoledClient {
   common::ErrnoError Ping(const commands_info::ClientPingInfo& ping) WARN_UNUSED_RESULT;
 
   // responses
-  common::ErrnoError CheckActivateFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError CheckLoginFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
 
-  common::ErrnoError ActivateFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
-  common::ErrnoError ActivateSuccess(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
+  common::ErrnoError ActivateDeviceFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError ActivateDeviceSuccess(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
+
+  common::ErrnoError LoginFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
+  common::ErrnoError LoginSuccess(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
 
   common::ErrnoError Pong(protocol::sequance_id_t id) WARN_UNUSED_RESULT;
   common::ErrnoError Pong(protocol::sequance_id_t id, const commands_info::ServerPingInfo& pong) WARN_UNUSED_RESULT;

@@ -38,10 +38,10 @@ common::ErrnoError Client::Ping(const commands_info::ClientPingInfo& ping) {
   return WriteRequest(ping_request);
 }
 
-common::ErrnoError Client::CheckActivateFail(protocol::sequance_id_t id, common::Error err) {
+common::ErrnoError Client::CheckLoginFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
   protocol::response_t resp;
-  common::Error err_ser = ActivateResponseFail(id, error_str, &resp);
+  common::Error err_ser = LoginResponseFail(id, error_str, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -49,10 +49,10 @@ common::ErrnoError Client::CheckActivateFail(protocol::sequance_id_t id, common:
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::ActivateFail(protocol::sequance_id_t id, common::Error err) {
+common::ErrnoError Client::ActivateDeviceFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
   protocol::response_t resp;
-  common::Error err_ser = ActivateResponseFail(id, error_str, &resp);
+  common::Error err_ser = ActivateDeviceResponseFail(id, error_str, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
@@ -60,9 +60,30 @@ common::ErrnoError Client::ActivateFail(protocol::sequance_id_t id, common::Erro
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::ActivateSuccess(protocol::sequance_id_t id) {
+common::ErrnoError Client::ActivateDeviceSuccess(protocol::sequance_id_t id) {
   protocol::response_t resp;
-  common::Error err_ser = ActivateResponseSuccess(id, &resp);
+  common::Error err_ser = ActivateDeviceResponseSuccess(id, &resp);
+  if (err_ser) {
+    return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
+  }
+
+  return WriteResponse(resp);
+}
+
+common::ErrnoError Client::LoginFail(protocol::sequance_id_t id, common::Error err) {
+  const std::string error_str = err->GetDescription();
+  protocol::response_t resp;
+  common::Error err_ser = LoginResponseFail(id, error_str, &resp);
+  if (err_ser) {
+    return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
+  }
+
+  return WriteResponse(resp);
+}
+
+common::ErrnoError Client::LoginSuccess(protocol::sequance_id_t id) {
+  protocol::response_t resp;
+  common::Error err_ser = LoginResponseSuccess(id, &resp);
   if (err_ser) {
     return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
   }
