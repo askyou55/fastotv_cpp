@@ -37,10 +37,11 @@ TEST(ChannelInfo, serialize_deserialize) {
   const bool enable_video = false;
   const bool enable_audio = true;
 
-  fastotv::commands_info::EpgInfo epg_info(stream_id, url, name);
+  fastotv::commands_info::EpgInfo::urls_t urls = {url};
+  fastotv::commands_info::EpgInfo epg_info(stream_id, urls, name);
   ASSERT_EQ(epg_info.GetDisplayName(), name);
   ASSERT_EQ(epg_info.GetTvgID(), stream_id);
-  ASSERT_EQ(epg_info.GetUrl(), url);
+  ASSERT_EQ(epg_info.GetUrls(), urls);
 
   serialize_t user;
   common::Error err = epg_info.Serialize(&user);
@@ -56,7 +57,7 @@ TEST(ChannelInfo, serialize_deserialize) {
                                                enable_video);
   ASSERT_EQ(http_uri.GetName(), name);
   ASSERT_EQ(http_uri.GetStreamID(), stream_id);
-  ASSERT_EQ(http_uri.GetUrl(), url);
+  ASSERT_EQ(http_uri.GetUrls(), urls);
   ASSERT_EQ(http_uri.IsEnableAudio(), enable_audio);
   ASSERT_EQ(http_uri.IsEnableVideo(), enable_video);
 
@@ -97,7 +98,8 @@ TEST(EpgInfo, serialize_deserialize) {
   const common::uri::Url uri("http://fasotgt.com:8080/master.m3u8");
   const std::string name = "test";
 
-  fastotv::commands_info::EpgInfo epg(id, uri, name);
+  fastotv::commands_info::EpgInfo::urls_t urls = {uri};
+  fastotv::commands_info::EpgInfo epg(id, urls, name);
   ASSERT_TRUE(epg.IsValid());
   serialize_t ser;
   common::Error err = epg.Serialize(&ser);
@@ -110,7 +112,7 @@ TEST(EpgInfo, serialize_deserialize) {
   ASSERT_TRUE(dser.IsValid());
 
   ASSERT_EQ(epg.GetTvgID(), dser.GetTvgID());
-  ASSERT_EQ(epg.GetUrl(), dser.GetUrl());
+  ASSERT_EQ(epg.GetUrls(), dser.GetUrls());
   ASSERT_EQ(epg.GetDisplayName(), dser.GetDisplayName());
   ASSERT_EQ(epg, dser);
 }
@@ -211,8 +213,9 @@ TEST(channels_t, serialize_deserialize) {
   const bool enable_video = false;
   const bool enable_audio = true;
 
+  fastotv::commands_info::EpgInfo::urls_t urls = {url};
   fastotv::commands_info::ChannelsInfo channels;
-  fastotv::commands_info::EpgInfo epg_info(stream_id, url, name);
+  fastotv::commands_info::EpgInfo epg_info(stream_id, urls, name);
   channels.AddChannel(fastotv::commands_info::ChannelInfo(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC,
                                                           fastotv::PROXY, std::string(), std::string(),
                                                           common::uri::Url(), epg_info, enable_audio, enable_video));

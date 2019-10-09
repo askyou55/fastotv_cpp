@@ -44,7 +44,7 @@ class ChannelInfo : public common::serializer::JsonSerializer<ChannelInfo> {
               bool enable_video);
 
   bool IsValid() const;
-  common::uri::Url GetUrl() const;
+  EpgInfo::urls_t GetUrls() const;
   std::string GetName() const;
   stream_id_t GetStreamID() const;
   Type GetType() const;

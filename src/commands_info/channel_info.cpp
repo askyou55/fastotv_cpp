@@ -65,8 +65,8 @@ bool ChannelInfo::IsValid() const {
   return stream_id_ != invalid_stream_id && epg_.IsValid();
 }
 
-common::uri::Url ChannelInfo::GetUrl() const {
-  return epg_.GetUrl();
+EpgInfo::urls_t ChannelInfo::GetUrls() const {
+  return epg_.GetUrls();
 }
 
 std::string ChannelInfo::GetName() const {

@@ -27,7 +27,7 @@
 */
 
 #define EPG_INFO_ID_FIELD "id"
-#define EPG_INFO_URL_FIELD "url"
+#define EPG_INFO_URLS_FIELD "urls"
 #define EPG_INFO_NAME_FIELD "display_name"
 #define EPG_INFO_ICON_FIELD "icon"
 #define EPG_INFO_PROGRAMS_FIELD "programs"
@@ -37,11 +37,11 @@ namespace commands_info {
 
 EpgInfo::EpgInfo() : tvg_id_(), uri_(), display_name_(), icon_src_(GetUnknownIconUrl()), programs_() {}
 
-EpgInfo::EpgInfo(tvg_id_t id, const common::uri::Url& uri, const std::string& name)
+EpgInfo::EpgInfo(tvg_id_t id, const urls_t& uri, const std::string& name)
     : tvg_id_(id), uri_(uri), display_name_(name), icon_src_(GetUnknownIconUrl()), programs_() {}
 
 bool EpgInfo::IsValid() const {
-  return uri_.IsValid() && !display_name_.empty();
+  return !uri_.empty() && !display_name_.empty();
 }
 
 bool EpgInfo::FindProgrammeByTime(timestamp_t time, ProgrammeInfo* inf) const {
@@ -60,11 +60,11 @@ bool EpgInfo::FindProgrammeByTime(timestamp_t time, ProgrammeInfo* inf) const {
   return false;
 }
 
-void EpgInfo::SetUrl(const common::uri::Url& url) {
+void EpgInfo::SetUrls(const urls_t& url) {
   uri_ = url;
 }
 
-common::uri::Url EpgInfo::GetUrl() const {
+EpgInfo::urls_t EpgInfo::GetUrls() const {
   return uri_;
 }
 
@@ -106,11 +106,17 @@ common::Error EpgInfo::SerializeFields(json_object* deserialized) const {
   }
 
   json_object_object_add(deserialized, EPG_INFO_ID_FIELD, json_object_new_string(tvg_id_.c_str()));
-  const std::string url_str = uri_.GetUrl();
-  json_object_object_add(deserialized, EPG_INFO_URL_FIELD, json_object_new_string(url_str.c_str()));
   json_object_object_add(deserialized, EPG_INFO_NAME_FIELD, json_object_new_string(display_name_.c_str()));
   const std::string icon_url_str = icon_src_.GetUrl();
   json_object_object_add(deserialized, EPG_INFO_ICON_FIELD, json_object_new_string(icon_url_str.c_str()));
+
+  json_object* jurls = json_object_new_array();
+  for (const auto url : uri_) {
+    std::string url_str = url.GetUrl();
+    json_object* jurl = json_object_new_string(url_str.c_str());
+    json_object_array_add(jurls, jurl);
+  }
+  json_object_object_add(deserialized, EPG_INFO_URLS_FIELD, jurls);
 
   json_object* jprograms = json_object_new_array();
   for (ProgrammeInfo prog : programs_) {
@@ -133,15 +139,19 @@ common::Error EpgInfo::DoDeSerialize(json_object* serialized) {
     id = json_object_get_string(jid);
   }
 
-  json_object* jurl = nullptr;
-  json_bool jurls_exists = json_object_object_get_ex(serialized, EPG_INFO_URL_FIELD, &jurl);
-  if (!jurls_exists) {
-    return common::make_error_inval();
-  }
-
-  common::uri::Url uri(json_object_get_string(jurl));
-  if (!uri.IsValid()) {
-    return common::make_error_inval();
+  json_object* jurls = nullptr;
+  urls_t urls;
+  json_bool jurls_exists = json_object_object_get_ex(serialized, EPG_INFO_URLS_FIELD, &jurls);
+  if (jurls_exists) {
+    size_t len = json_object_array_length(jurls);
+    for (size_t i = 0; i < len; ++i) {
+      json_object* jurl = json_object_array_get_idx(jurls, i);
+      const std::string url_str = json_object_get_string(jurl);
+      common::uri::Url url(url_str);
+      if (url.IsValid()) {
+        urls.push_back(url);
+      }
+    }
   }
 
   json_object* jname = nullptr;
@@ -155,7 +165,7 @@ common::Error EpgInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
 
-  EpgInfo url(id, uri, name);
+  EpgInfo url(id, urls, name);
   if (!url.IsValid()) {
     return common::make_error_inval();
   }
