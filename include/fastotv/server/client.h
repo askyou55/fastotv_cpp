@@ -35,6 +35,8 @@ class Client : public ProtocoledClient {
   common::ErrnoError Ping() WARN_UNUSED_RESULT;
   common::ErrnoError Ping(const commands_info::ClientPingInfo& ping) WARN_UNUSED_RESULT;
 
+  common::ErrnoError GetClientInfo() WARN_UNUSED_RESULT;
+
   // responses
   common::ErrnoError CheckLoginFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
 

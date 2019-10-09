@@ -38,6 +38,16 @@ common::ErrnoError Client::Ping(const commands_info::ClientPingInfo& ping) {
   return WriteRequest(ping_request);
 }
 
+common::ErrnoError Client::GetClientInfo() {
+  protocol::request_t ping_request;
+  common::Error err_ser = GetClientInfoRequest(NextRequestID(), &ping_request);
+  if (err_ser) {
+    return common::make_errno_error(err_ser->GetDescription(), EAGAIN);
+  }
+
+  return WriteRequest(ping_request);
+}
+
 common::ErrnoError Client::CheckLoginFail(protocol::sequance_id_t id, common::Error err) {
   const std::string error_str = err->GetDescription();
   protocol::response_t resp;

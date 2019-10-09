@@ -36,6 +36,8 @@ common::Error PingRequest(protocol::sequance_id_t id,
                           const commands_info::ClientPingInfo& params,
                           protocol::request_t* req);
 
+common::Error GetClientInfoRequest(protocol::sequance_id_t id, protocol::request_t* req);
+
 // responses
 common::Error ActivateDeviceResponseSuccess(protocol::sequance_id_t id,
                                             const commands_info::DevicesInfo& params,
