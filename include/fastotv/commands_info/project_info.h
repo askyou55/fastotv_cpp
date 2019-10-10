@@ -18,54 +18,42 @@
 
 #pragma once
 
-#include <string>
-
-#include <fastotv/commands_info/operation_system_info.h>
-#include <fastotv/commands_info/project_info.h>
-
-#include <fastotv/types.h>
+#include <common/serializer/json_serializer.h>
 
 namespace fastotv {
 namespace commands_info {
 
-class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
+class ProjectInfo : public common::serializer::JsonSerializer<ProjectInfo> {
  public:
-  ClientInfo();
-  ClientInfo(const login_t& login,
-             const device_id_t& device_id,
-             const ProjectInfo& proj,
-             const OperationSystemInfo& os,
-             const std::string& cpu_brand,
-             bandwidth_t bandwidth);
+  typedef common::serializer::JsonSerializer<ProjectInfo> base_class;
+
+  ProjectInfo();
+  ProjectInfo(const std::string& name, const std::string& version);
 
   bool IsValid() const;
 
-  login_t GetLogin() const;
-  ProjectInfo GetProject() const;
-  OperationSystemInfo GetOs() const;
-  std::string GetCpuBrand() const;
-  bandwidth_t GetBandwidth() const;
+  std::string GetName() const;
+  void SetName(const std::string& name);
 
-  bool Equals(const ClientInfo& info) const;
+  std::string GetVersion() const;
+  void SetVersion(const std::string& version);
+
+  bool Equals(const ProjectInfo& proj) const;
 
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  login_t login_;
-  device_id_t device_id_;
-  ProjectInfo proj_;
-  OperationSystemInfo os_;
-  std::string cpu_brand_;
-  bandwidth_t bandwidth_;
+  std::string name_;
+  std::string version_;
 };
 
-inline bool operator==(const ClientInfo& left, const ClientInfo& right) {
-  return left.Equals(right);
+inline bool operator==(const ProjectInfo& lhs, const ProjectInfo& rhs) {
+  return lhs.Equals(rhs);
 }
 
-inline bool operator!=(const ClientInfo& x, const ClientInfo& y) {
+inline bool operator!=(const ProjectInfo& x, const ProjectInfo& y) {
   return !(x == y);
 }
 

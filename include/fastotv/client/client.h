@@ -24,6 +24,7 @@
 #include <fastotv/commands_info/auth_info.h>
 #include <fastotv/commands_info/client_info.h>
 #include <fastotv/commands_info/ping_info.h>
+#include <fastotv/commands_info/project_info.h>
 #include <fastotv/protocol/types.h>
 
 namespace fastotv {
@@ -53,6 +54,7 @@ class Client : public ProtocoledClient {
   common::ErrnoError SystemInfo(protocol::sequance_id_t id,
                                 const login_t& login,
                                 const device_id_t& dev,
+                                const commands_info::ProjectInfo& proj,
                                 bandwidth_t bandwidth) WARN_UNUSED_RESULT;
   common::ErrnoError SystemInfo(protocol::sequance_id_t id, const commands_info::ClientInfo& info) WARN_UNUSED_RESULT;
 };
