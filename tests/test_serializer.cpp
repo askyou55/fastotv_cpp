@@ -216,10 +216,10 @@ TEST(channels_t, serialize_deserialize) {
   fastotv::commands_info::EpgInfo::urls_t urls = {url};
   fastotv::commands_info::ChannelsInfo channels;
   fastotv::commands_info::EpgInfo epg_info(stream_id, urls, name);
-  channels.AddChannel(fastotv::commands_info::ChannelInfo(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC,
-                                                          fastotv::PROXY, std::string(), std::string(),
-                                                          common::uri::Url(), epg_info, enable_audio, enable_video));
-  ASSERT_EQ(channels.GetSize(), 1);
+  channels.Add(fastotv::commands_info::ChannelInfo(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC,
+                                                   fastotv::PROXY, std::string(), std::string(), common::uri::Url(),
+                                                   epg_info, enable_audio, enable_video));
+  ASSERT_EQ(channels.Get().size(), 1);
 
   serialize_t ser;
   common::Error err = channels.Serialize(&ser);

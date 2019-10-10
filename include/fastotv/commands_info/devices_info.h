@@ -18,41 +18,12 @@
 
 #pragma once
 
-#include <vector>
-
 #include <fastotv/commands_info/device_info.h>
 
 namespace fastotv {
 namespace commands_info {
 
-class DevicesInfo : public common::serializer::JsonSerializerArray<DevicesInfo> {
- public:
-  typedef std::vector<DeviceInfo> devices_t;
-  DevicesInfo();
-
-  void AddDevice(const DeviceInfo& device);
-  devices_t GetDevices() const;
-
-  size_t GetSize() const;
-  bool IsEmpty() const;
-
-  bool Equals(const DevicesInfo& chan) const;
-
- protected:
-  common::Error DoDeSerialize(json_object* serialized) override;
-  common::Error SerializeArray(json_object* deserialized_array) const override;
-
- private:
-  devices_t devices_;
-};
-
-inline bool operator==(const DevicesInfo& lhs, const DevicesInfo& rhs) {
-  return lhs.Equals(rhs);
-}
-
-inline bool operator!=(const DevicesInfo& x, const DevicesInfo& y) {
-  return !(x == y);
-}
+typedef common::serializer::JsonSerializerArray<DeviceInfo> DevicesInfo;
 
 }  // namespace commands_info
 }  // namespace fastotv

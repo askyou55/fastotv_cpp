@@ -66,11 +66,9 @@ SET(PROTOCOL_SOURCES
   ${CMAKE_SOURCE_DIR}/src/commands_info/client_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/programme_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/device_info.cpp
-  ${CMAKE_SOURCE_DIR}/src/commands_info/devices_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/channel_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/epg_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/runtime_channel_info.cpp
-  ${CMAKE_SOURCE_DIR}/src/commands_info/channels_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/ping_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/server_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/notification_text_info.cpp
