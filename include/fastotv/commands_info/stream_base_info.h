@@ -20,45 +20,48 @@
 
 #include <string>
 
-#include <common/uri/url.h>  // for Uri
+#include <common/serializer/json_serializer.h>
 
-#include <fastotv/commands_info/epg_info.h>
-#include <fastotv/commands_info/stream_base_info.h>
+#include <fastotv/types.h>
 
 namespace fastotv {
 namespace commands_info {
 
-class ChannelInfo : public StreamBaseInfo {
+class StreamBaseInfo : public common::serializer::JsonSerializer<StreamBaseInfo> {
  public:
-  typedef StreamBaseInfo base_class;
+  enum Type { PUBLIC, PRIVATE };
 
-  ChannelInfo();
-  ChannelInfo(stream_id_t sid,
-              Type type,
-              const std::string& group,
-              const EpgInfo& epg,
-              bool enable_audio,
-              bool enable_video);
+  StreamBaseInfo();
+  StreamBaseInfo(stream_id_t sid, Type type, const std::string& group, bool enable_audio, bool enable_video);
 
   bool IsValid() const;
+  stream_id_t GetStreamID() const;
+  Type GetType() const;
+  std::string GetGroup() const;
 
-  EpgInfo GetEpg() const;
+  bool IsEnableAudio() const;
+  bool IsEnableVideo() const;
 
-  bool Equals(const ChannelInfo& url) const;
+  bool Equals(const StreamBaseInfo& url) const;
 
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  EpgInfo epg_;
+  stream_id_t stream_id_;
+  Type type_;
+  std::string group_;
+
+  bool enable_audio_;
+  bool enable_video_;
 };
 
-inline bool operator==(const ChannelInfo& left, const ChannelInfo& right) {
+inline bool operator==(const StreamBaseInfo& left, const StreamBaseInfo& right) {
   return left.Equals(right);
 }
 
-inline bool operator!=(const ChannelInfo& x, const ChannelInfo& y) {
+inline bool operator!=(const StreamBaseInfo& x, const StreamBaseInfo& y) {
   return !(x == y);
 }
 

@@ -52,12 +52,9 @@ TEST(ChannelInfo, serialize_deserialize) {
 
   ASSERT_EQ(epg_info, depg);
 
-  fastotv::commands_info::ChannelInfo http_uri(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC, fastotv::PROXY,
-                                               std::string(), std::string(), common::uri::Url(), epg_info, enable_audio,
-                                               enable_video);
-  ASSERT_EQ(http_uri.GetName(), name);
+  fastotv::commands_info::ChannelInfo http_uri(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC, std::string(),
+                                               epg_info, enable_audio, enable_video);
   ASSERT_EQ(http_uri.GetStreamID(), stream_id);
-  ASSERT_EQ(http_uri.GetUrls(), urls);
   ASSERT_EQ(http_uri.IsEnableAudio(), enable_audio);
   ASSERT_EQ(http_uri.IsEnableVideo(), enable_video);
 
@@ -185,7 +182,9 @@ TEST(ClientInfo, serialize_deserialize) {
   ASSERT_EQ(ops.GetRamTotal(), ram_total);
   ASSERT_EQ(ops.GetRamFree(), ram_free);
 
-  fastotv::commands_info::ClientInfo cinf(login, deva, ops, cpu_brand, bandwidth);
+  fastotv::commands_info::ProjectInfo proj;
+
+  fastotv::commands_info::ClientInfo cinf(login, deva, proj, ops, cpu_brand, bandwidth);
   ASSERT_EQ(cinf.GetLogin(), login);
   ASSERT_EQ(cinf.GetOs(), ops);
   ASSERT_EQ(cinf.GetCpuBrand(), cpu_brand);
@@ -217,8 +216,7 @@ TEST(channels_t, serialize_deserialize) {
   fastotv::commands_info::ChannelsInfo channels;
   fastotv::commands_info::EpgInfo epg_info(stream_id, urls, name);
   channels.Add(fastotv::commands_info::ChannelInfo(stream_id, fastotv::commands_info::ChannelInfo::PUBLIC,
-                                                   fastotv::PROXY, std::string(), std::string(), common::uri::Url(),
-                                                   epg_info, enable_audio, enable_video));
+                                                   std::string(), epg_info, enable_audio, enable_video));
   ASSERT_EQ(channels.Get().size(), 1);
 
   serialize_t ser;

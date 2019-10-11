@@ -19,46 +19,40 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
+#include <common/serializer/json_serializer.h>
 #include <common/uri/url.h>  // for Uri
-
-#include <fastotv/commands_info/epg_info.h>
-#include <fastotv/commands_info/stream_base_info.h>
 
 namespace fastotv {
 namespace commands_info {
 
-class ChannelInfo : public StreamBaseInfo {
+class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
  public:
-  typedef StreamBaseInfo base_class;
+  typedef std::vector<common::uri::Url> urls_t;
 
-  ChannelInfo();
-  ChannelInfo(stream_id_t sid,
-              Type type,
-              const std::string& group,
-              const EpgInfo& epg,
-              bool enable_audio,
-              bool enable_video);
+  MovieInfo();
+  MovieInfo(const urls_t& urls, const std::string& description, const common::uri::Url& preview_icon);
 
   bool IsValid() const;
 
-  EpgInfo GetEpg() const;
-
-  bool Equals(const ChannelInfo& url) const;
+  bool Equals(const MovieInfo& os) const;
 
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  EpgInfo epg_;
+  urls_t urls_;
+  std::string description_;
+  common::uri::Url preview_icon_;
 };
 
-inline bool operator==(const ChannelInfo& left, const ChannelInfo& right) {
+inline bool operator==(const MovieInfo& left, const MovieInfo& right) {
   return left.Equals(right);
 }
 
-inline bool operator!=(const ChannelInfo& x, const ChannelInfo& y) {
+inline bool operator!=(const MovieInfo& x, const MovieInfo& y) {
   return !(x == y);
 }
 
