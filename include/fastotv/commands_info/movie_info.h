@@ -36,6 +36,15 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
 
   bool IsValid() const;
 
+  void SetUrls(const urls_t& urls);
+  urls_t GetUrls() const;
+
+  void SetDescription(const std::string& descr);
+  std::string GetDescription() const;
+
+  void SetPreviewIcon(const common::uri::Url& url);
+  common::uri::Url GetPreviewIcon() const;
+
   bool Equals(const MovieInfo& os) const;
 
  protected:

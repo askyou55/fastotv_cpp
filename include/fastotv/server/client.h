@@ -21,6 +21,7 @@
 #include <fastotv/commands_info/devices_info.h>
 #include <fastotv/commands_info/ping_info.h>
 #include <fastotv/commands_info/runtime_channel_info.h>
+#include <fastotv/commands_info/vods_info.h>
 #include <fastotv/protocol/types.h>
 
 namespace fastotv {
@@ -56,7 +57,8 @@ class Client : public ProtocoledClient {
 
   common::ErrnoError GetChannelsFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
   common::ErrnoError GetChannelsSuccess(protocol::sequance_id_t id,
-                                        const commands_info::ChannelsInfo& channels) WARN_UNUSED_RESULT;
+                                        const commands_info::ChannelsInfo& channels,
+                                        const commands_info::VodsInfo& vods) WARN_UNUSED_RESULT;
 
   common::ErrnoError GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id,
                                                   stream_id_t sid,

@@ -153,9 +153,11 @@ common::ErrnoError Client::GetChannelsFail(protocol::sequance_id_t id, common::E
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetChannelsSuccess(protocol::sequance_id_t id, const commands_info::ChannelsInfo& channels) {
+common::ErrnoError Client::GetChannelsSuccess(protocol::sequance_id_t id,
+                                              const commands_info::ChannelsInfo& channels,
+                                              const commands_info::VodsInfo& vods) {
   protocol::response_t resp;
-  common::Error err_ser = GetChannelsResponseSuccess(id, channels, &resp);
+  common::Error err_ser = GetChannelsResponseSuccess(id, channels, vods, &resp);
   if (err_ser) {
     const std::string err_str = err_ser->GetDescription();
     return common::make_errno_error(err_str, EAGAIN);

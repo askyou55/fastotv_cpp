@@ -27,6 +27,7 @@
 #include <fastotv/commands_info/ping_info.h>
 #include <fastotv/commands_info/runtime_channel_info.h>
 #include <fastotv/commands_info/server_info.h>
+#include <fastotv/commands_info/vods_info.h>
 
 namespace fastotv {
 namespace server {
@@ -64,7 +65,8 @@ common::Error GetServerInfoResponseFail(protocol::sequance_id_t id,
 
 // channels
 common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
-                                         const commands_info::ChannelsInfo& params,
+                                         const commands_info::ChannelsInfo& channels,
+                                         const commands_info::VodsInfo& vods,
                                          protocol::response_t* resp);
 common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
                                       const std::string& error_text,

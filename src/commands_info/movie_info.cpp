@@ -34,6 +34,30 @@ bool MovieInfo::IsValid() const {
   return !urls_.empty();
 }
 
+void MovieInfo::SetUrls(const urls_t& urls) {
+  urls_ = urls;
+}
+
+MovieInfo::urls_t MovieInfo::GetUrls() const {
+  return urls_;
+}
+
+void MovieInfo::SetDescription(const std::string& descr) {
+  description_ = descr;
+}
+
+std::string MovieInfo::GetDescription() const {
+  return description_;
+}
+
+void MovieInfo::SetPreviewIcon(const common::uri::Url& url) {
+  preview_icon_ = url;
+}
+
+common::uri::Url MovieInfo::GetPreviewIcon() const {
+  return preview_icon_;
+}
+
 common::Error MovieInfo::SerializeFields(json_object* deserialized) const {
   if (!IsValid()) {
     return common::make_error_inval();

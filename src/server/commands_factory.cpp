@@ -20,6 +20,9 @@
 
 #include <fastotv/commands/commands.h>
 
+#define CHANNELS_FIELD "channels"
+#define VODS_FIELD "vods"
+
 namespace fastotv {
 namespace server {
 
@@ -159,20 +162,28 @@ common::Error GetServerInfoResponseFail(protocol::sequance_id_t id,
 }
 
 common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
-                                         const commands_info::ChannelsInfo& params,
+                                         const commands_info::ChannelsInfo& channels,
+                                         const commands_info::VodsInfo& vods,
                                          protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
   }
 
-  json_object* obj = nullptr;
-  common::Error err_ser = params.Serialize(&obj);
+  json_object* cobj = nullptr;
+  common::Error err_ser = channels.Serialize(&cobj);
+  if (err_ser) {
+    return err_ser;
+  }
+
+  json_object* vobj = nullptr;
+  err_ser = vods.Serialize(&vobj);
   if (err_ser) {
     return err_ser;
   }
 
   json_object* parent = json_object_new_object();
-  json_object_object_add(parent, "channels", obj);
+  json_object_object_add(parent, VODS_FIELD, vobj);
+  json_object_object_add(parent, CHANNELS_FIELD, cobj);
   const std::string chan_json = json_object_get_string(parent);
   json_object_put(parent);
 
