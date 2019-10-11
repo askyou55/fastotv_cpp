@@ -32,12 +32,15 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   typedef std::vector<common::uri::Url> urls_t;
 
   MovieInfo();
-  MovieInfo(const urls_t& urls, const std::string& description, const common::uri::Url& preview_icon);
+  MovieInfo(const std::string& name, const urls_t& urls, const std::string& description, const common::uri::Url& preview_icon);
 
   bool IsValid() const;
 
   void SetUrls(const urls_t& urls);
   urls_t GetUrls() const;
+
+  void SetDisplayName(const std::string& name);
+  std::string GetDisplayName() const;
 
   void SetDescription(const std::string& descr);
   std::string GetDescription() const;
@@ -52,6 +55,7 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
+  std::string display_name_;
   urls_t urls_;
   std::string description_;
   common::uri::Url preview_icon_;

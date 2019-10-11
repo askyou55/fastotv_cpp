@@ -21,14 +21,18 @@
 #define MOVIE_INFO_URLS_FIELD "urls"
 #define MOVIE_INFO_DESCRIPTION_FIELD "description"
 #define MOVIE_INFO_PREVIEW_ICON_FIELD "preview_icon"
+#define MOVIE_INFO_NAME_FIELD "display_name"
 
 namespace fastotv {
 namespace commands_info {
 
-MovieInfo::MovieInfo() : urls_(), description_(), preview_icon_() {}
+MovieInfo::MovieInfo() : display_name_(), urls_(), description_(), preview_icon_() {}
 
-MovieInfo::MovieInfo(const urls_t& urls, const std::string& description, const common::uri::Url& preview_icon)
-    : urls_(urls), description_(description), preview_icon_(preview_icon) {}
+MovieInfo::MovieInfo(const std::string& name,
+                     const urls_t& urls,
+                     const std::string& description,
+                     const common::uri::Url& preview_icon)
+    : display_name_(name), urls_(urls), description_(description), preview_icon_(preview_icon) {}
 
 bool MovieInfo::IsValid() const {
   return !urls_.empty();
@@ -40,6 +44,14 @@ void MovieInfo::SetUrls(const urls_t& urls) {
 
 MovieInfo::urls_t MovieInfo::GetUrls() const {
   return urls_;
+}
+
+void MovieInfo::SetDisplayName(const std::string& name) {
+  display_name_ = name;
+}
+
+std::string MovieInfo::GetDisplayName() const {
+  return display_name_;
 }
 
 void MovieInfo::SetDescription(const std::string& descr) {
@@ -63,6 +75,7 @@ common::Error MovieInfo::SerializeFields(json_object* deserialized) const {
     return common::make_error_inval();
   }
 
+  json_object_object_add(deserialized, MOVIE_INFO_NAME_FIELD, json_object_new_string(display_name_.c_str()));
   json_object_object_add(deserialized, MOVIE_INFO_DESCRIPTION_FIELD, json_object_new_string(description_.c_str()));
   const std::string icon_url_str = preview_icon_.GetUrl();
   json_object_object_add(deserialized, MOVIE_INFO_PREVIEW_ICON_FIELD, json_object_new_string(icon_url_str.c_str()));
@@ -102,6 +115,13 @@ common::Error MovieInfo::DoDeSerialize(json_object* serialized) {
     description = json_object_get_string(jdescription);
   }
 
+  std::string name;
+  json_object* jname = nullptr;
+  json_bool jname_exists = json_object_object_get_ex(serialized, MOVIE_INFO_NAME_FIELD, &jname);
+  if (jname_exists) {
+    name = json_object_get_string(jname);
+  }
+
   common::uri::Url preview_icon;
   json_object* jpreview_icon = nullptr;
   json_bool jpreview_icon_exists = json_object_object_get_ex(serialized, MOVIE_INFO_PREVIEW_ICON_FIELD, &jpreview_icon);
@@ -109,7 +129,7 @@ common::Error MovieInfo::DoDeSerialize(json_object* serialized) {
     preview_icon = common::uri::Url(json_object_get_string(jpreview_icon));
   }
 
-  MovieInfo url(urls, description, preview_icon);
+  MovieInfo url(name, urls, description, preview_icon);
   *this = url;
   return common::Error();
 }
