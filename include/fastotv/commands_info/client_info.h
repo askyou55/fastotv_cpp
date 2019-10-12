@@ -41,10 +41,19 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
   bool IsValid() const;
 
   login_t GetLogin() const;
+  void SetLogin(const login_t& login);
+
   ProjectInfo GetProject() const;
+  void SetProject(const ProjectInfo& proj);
+
   OperationSystemInfo GetOs() const;
+  void SetOs(const OperationSystemInfo& os);
+
   std::string GetCpuBrand() const;
+  void SetCpuBrand(const std::string& brand);
+
   bandwidth_t GetBandwidth() const;
+  void SetBandwidth(const bandwidth_t& band);
 
   bool Equals(const ClientInfo& info) const;
 

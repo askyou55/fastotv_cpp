@@ -30,6 +30,7 @@ class ServerPingInfo : public common::serializer::JsonSerializer<ServerPingInfo>
   ServerPingInfo();
 
   timestamp_t GetTimeStamp() const;
+  void SetTimestamp(timestamp_t time);
 
   bool Equals(const ServerPingInfo& ping) const;
 

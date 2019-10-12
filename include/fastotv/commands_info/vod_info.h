@@ -43,6 +43,7 @@ class VodInfo : public StreamBaseInfo {
   bool IsValid() const;
 
   MovieInfo GetMovieInfo() const;
+  void SetMovieInfo(const MovieInfo& movie);
 
   bool Equals(const VodInfo& url) const;
 

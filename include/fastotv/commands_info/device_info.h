@@ -34,6 +34,12 @@ class DeviceInfo : public common::serializer::JsonSerializer<DeviceInfo> {
 
   bool IsValid() const;
 
+  void SetDeviceID(device_id_t did);
+  device_id_t GetDeviceID() const;
+
+  void SetName(const std::string& name);
+  std::string GetName() const;
+
   bool Equals(const DeviceInfo& url) const;
 
  protected:

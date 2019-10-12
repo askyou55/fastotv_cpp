@@ -32,7 +32,10 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   typedef std::vector<common::uri::Url> urls_t;
 
   MovieInfo();
-  MovieInfo(const std::string& name, const urls_t& urls, const std::string& description, const common::uri::Url& preview_icon);
+  MovieInfo(const std::string& name,
+            const urls_t& urls,
+            const std::string& description,
+            const common::uri::Url& preview_icon);
 
   bool IsValid() const;
 

@@ -37,10 +37,19 @@ class OperationSystemInfo : public common::serializer::JsonSerializer<OperationS
   bool IsValid() const;
 
   std::string GetName() const;
+  void SetName(const std::string& name);
+
   std::string GetVersion() const;
+  void SetVersion(const std::string& version);
+
   std::string GetArch() const;
+  void SetArch(const std::string& arch);
+
   size_t GetRamTotal() const;
+  void SetRamTotal(size_t ram);
+
   size_t GetRamFree() const;
+  void SetRamFree(size_t size);
 
   static OperationSystemInfo MakeOSSnapshot();
 

@@ -35,9 +35,15 @@ class StreamBaseInfo : public common::serializer::JsonSerializer<StreamBaseInfo>
   StreamBaseInfo(stream_id_t sid, Type type, const std::string& group, bool enable_audio, bool enable_video);
 
   bool IsValid() const;
+
   stream_id_t GetStreamID() const;
+  void SetStreamID(const stream_id_t sid);
+
   Type GetType() const;
+  void SetType(Type type);
+
   std::string GetGroup() const;
+  void SetGroup(const std::string& group);
 
   bool IsEnableAudio() const;
   bool IsEnableVideo() const;

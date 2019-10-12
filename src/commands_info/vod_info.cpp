@@ -41,6 +41,10 @@ MovieInfo VodInfo::GetMovieInfo() const {
   return movie_;
 }
 
+void VodInfo::SetMovieInfo(const MovieInfo& movie) {
+  movie_ = movie;
+}
+
 common::Error VodInfo::SerializeFields(json_object* deserialized) const {
   if (!IsValid()) {
     return common::make_error_inval();

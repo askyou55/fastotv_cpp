@@ -32,6 +32,22 @@ bool DeviceInfo::IsValid() const {
   return did_ != invalid_device_id && !name_.empty();
 }
 
+void DeviceInfo::SetDeviceID(device_id_t did) {
+  did_ = did;
+}
+
+device_id_t DeviceInfo::GetDeviceID() const {
+  return did_;
+}
+
+void DeviceInfo::SetName(const std::string& name) {
+  name_ = name;
+}
+
+std::string DeviceInfo::GetName() const {
+  return name_;
+}
+
 common::Error DeviceInfo::SerializeFields(json_object* deserialized) const {
   if (!IsValid()) {
     return common::make_error_inval();

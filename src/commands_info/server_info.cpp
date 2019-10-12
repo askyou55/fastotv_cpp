@@ -53,6 +53,10 @@ common::net::HostAndPort ServerInfo::GetBandwidthHost() const {
   return bandwidth_host_;
 }
 
+void ServerInfo::SetBandwidthHost(const common::net::HostAndPort& host) {
+  bandwidth_host_ = host;
+}
+
 bool ServerInfo::Equals(const ServerInfo& serv) const {
   return serv.bandwidth_host_ == bandwidth_host_;
 }

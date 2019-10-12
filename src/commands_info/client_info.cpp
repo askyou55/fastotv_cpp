@@ -135,20 +135,40 @@ login_t ClientInfo::GetLogin() const {
   return login_;
 }
 
+void ClientInfo::SetLogin(const login_t& login) {
+  login_ = login;
+}
+
 ProjectInfo ClientInfo::GetProject() const {
   return proj_;
+}
+
+void ClientInfo::SetProject(const ProjectInfo& proj) {
+  proj_ = proj;
 }
 
 OperationSystemInfo ClientInfo::GetOs() const {
   return os_;
 }
 
+void ClientInfo::SetOs(const OperationSystemInfo& os) {
+  os_ = os;
+}
+
 std::string ClientInfo::GetCpuBrand() const {
   return cpu_brand_;
 }
 
+void ClientInfo::SetCpuBrand(const std::string& brand) {
+  cpu_brand_ = brand;
+}
+
 bandwidth_t ClientInfo::GetBandwidth() const {
   return bandwidth_;
+}
+
+void ClientInfo::SetBandwidth(const bandwidth_t& band) {
+  bandwidth_ = band;
 }
 
 bool ClientInfo::Equals(const ClientInfo& info) const {

@@ -31,6 +31,7 @@ class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
   explicit ServerInfo(const common::net::HostAndPort& bandwidth_host);
 
   common::net::HostAndPort GetBandwidthHost() const;
+  void SetBandwidthHost(const common::net::HostAndPort& host);
 
   bool Equals(const ServerInfo& serv) const;
 

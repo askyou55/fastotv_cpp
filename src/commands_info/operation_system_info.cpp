@@ -42,20 +42,40 @@ std::string OperationSystemInfo::GetName() const {
   return name_;
 }
 
+void OperationSystemInfo::SetName(const std::string& name) {
+  name_ = name;
+}
+
 std::string OperationSystemInfo::GetVersion() const {
   return version_;
+}
+
+void OperationSystemInfo::SetVersion(const std::string& version) {
+  version_ = version;
 }
 
 std::string OperationSystemInfo::GetArch() const {
   return arch_;
 }
 
+void OperationSystemInfo::SetArch(const std::string& arch) {
+  arch_ = arch;
+}
+
 size_t OperationSystemInfo::GetRamTotal() const {
   return ram_total_;
 }
 
+void OperationSystemInfo::SetRamTotal(size_t ram) {
+  ram_total_ = ram;
+}
+
 size_t OperationSystemInfo::GetRamFree() const {
   return ram_free_;
+}
+
+void OperationSystemInfo::SetRamFree(size_t size) {
+  ram_total_ = size;
 }
 
 OperationSystemInfo OperationSystemInfo::MakeOSSnapshot() {

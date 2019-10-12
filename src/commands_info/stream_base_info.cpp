@@ -45,12 +45,24 @@ stream_id_t StreamBaseInfo::GetStreamID() const {
   return stream_id_;
 }
 
+void StreamBaseInfo::SetStreamID(const stream_id_t sid) {
+  stream_id_ = sid;
+}
+
 StreamBaseInfo::Type StreamBaseInfo::GetType() const {
   return type_;
 }
 
+void StreamBaseInfo::SetType(Type type) {
+  type_ = type;
+}
+
 std::string StreamBaseInfo::GetGroup() const {
   return group_;
+}
+
+void StreamBaseInfo::SetGroup(const std::string& group) {
+  group_ = group;
 }
 
 bool StreamBaseInfo::IsEnableAudio() const {

@@ -49,6 +49,10 @@ timestamp_t ServerPingInfo::GetTimeStamp() const {
   return timestamp_;
 }
 
+void ServerPingInfo::SetTimestamp(timestamp_t time) {
+  timestamp_ = time;
+}
+
 bool ServerPingInfo::Equals(const ServerPingInfo& ping) const {
   return timestamp_ == ping.timestamp_;
 }
