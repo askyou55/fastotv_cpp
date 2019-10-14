@@ -35,8 +35,7 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
              const device_id_t& device_id,
              const ProjectInfo& proj,
              const OperationSystemInfo& os,
-             const std::string& cpu_brand,
-             bandwidth_t bandwidth);
+             const std::string& cpu_brand);
 
   bool IsValid() const;
 
@@ -52,9 +51,6 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
   std::string GetCpuBrand() const;
   void SetCpuBrand(const std::string& brand);
 
-  bandwidth_t GetBandwidth() const;
-  void SetBandwidth(const bandwidth_t& band);
-
   bool Equals(const ClientInfo& info) const;
 
  protected:
@@ -67,7 +63,6 @@ class ClientInfo : public common::serializer::JsonSerializer<ClientInfo> {
   ProjectInfo proj_;
   OperationSystemInfo os_;
   std::string cpu_brand_;
-  bandwidth_t bandwidth_;
 };
 
 inline bool operator==(const ClientInfo& left, const ClientInfo& right) {

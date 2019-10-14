@@ -72,12 +72,10 @@ common::ErrnoError Client::Pong(protocol::sequance_id_t id, const commands_info:
 common::ErrnoError Client::SystemInfo(protocol::sequance_id_t id,
                                       const login_t& login,
                                       const device_id_t& dev,
-                                      const commands_info::ProjectInfo& proj,
-                                      bandwidth_t bandwidth) {
+                                      const commands_info::ProjectInfo& proj) {
   const common::system_info::CpuInfo& c1 = common::system_info::CurrentCpuInfo();
   std::string brand = c1.GetBrandName();
-  commands_info::ClientInfo info(login, dev, proj, commands_info::OperationSystemInfo::MakeOSSnapshot(), brand,
-                                 bandwidth);
+  commands_info::ClientInfo info(login, dev, proj, commands_info::OperationSystemInfo::MakeOSSnapshot(), brand);
   return SystemInfo(id, info);
 }
 

@@ -75,10 +75,8 @@ TEST(ChannelInfo, serialize_deserialize) {
 }
 
 TEST(ServerInfo, serialize_deserialize) {
-  const common::net::HostAndPort hs = common::net::HostAndPort::CreateLocalHost(3554);
   const common::uri::Url url("http://localhost/index.html");
-  fastotv::commands_info::ServerInfo serv_info(hs, url);
-  ASSERT_EQ(serv_info.GetBandwidthHost(), hs);
+  fastotv::commands_info::ServerInfo serv_info(url);
 
   serialize_t ser;
   common::Error err = serv_info.Serialize(&ser);
@@ -86,8 +84,6 @@ TEST(ServerInfo, serialize_deserialize) {
   fastotv::commands_info::ServerInfo dser;
   err = dser.DeSerialize(ser);
   ASSERT_TRUE(!err);
-
-  ASSERT_EQ(serv_info.GetBandwidthHost(), dser.GetBandwidthHost());
 }
 
 TEST(EpgInfo, serialize_deserialize) {
@@ -176,7 +172,6 @@ TEST(ClientInfo, serialize_deserialize) {
   const std::string arch = "x64";
   const int64_t ram_total = 1;
   const int64_t ram_free = 2;
-  const fastotv::bandwidth_t bandwidth = 5;
 
   fastotv::commands_info::OperationSystemInfo ops(os, os_version, arch, ram_total, ram_free);
   ASSERT_EQ(ops.GetRamTotal(), ram_total);
@@ -184,11 +179,10 @@ TEST(ClientInfo, serialize_deserialize) {
 
   fastotv::commands_info::ProjectInfo proj;
 
-  fastotv::commands_info::ClientInfo cinf(login, deva, proj, ops, cpu_brand, bandwidth);
+  fastotv::commands_info::ClientInfo cinf(login, deva, proj, ops, cpu_brand);
   ASSERT_EQ(cinf.GetLogin(), login);
   ASSERT_EQ(cinf.GetOs(), ops);
   ASSERT_EQ(cinf.GetCpuBrand(), cpu_brand);
-  ASSERT_EQ(cinf.GetBandwidth(), bandwidth);
 
   serialize_t ser;
   common::Error err = cinf.Serialize(&ser);
@@ -200,7 +194,6 @@ TEST(ClientInfo, serialize_deserialize) {
   ASSERT_EQ(cinf.GetLogin(), dcinf.GetLogin());
   ASSERT_EQ(cinf.GetOs(), dcinf.GetOs());
   ASSERT_EQ(cinf.GetCpuBrand(), dcinf.GetCpuBrand());
-  ASSERT_EQ(cinf.GetBandwidth(), dcinf.GetBandwidth());
 
   ASSERT_EQ(cinf, dcinf);
 }

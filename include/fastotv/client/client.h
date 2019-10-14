@@ -54,8 +54,7 @@ class Client : public ProtocoledClient {
   common::ErrnoError SystemInfo(protocol::sequance_id_t id,
                                 const login_t& login,
                                 const device_id_t& dev,
-                                const commands_info::ProjectInfo& proj,
-                                bandwidth_t bandwidth) WARN_UNUSED_RESULT;
+                                const commands_info::ProjectInfo& proj) WARN_UNUSED_RESULT;
   common::ErrnoError SystemInfo(protocol::sequance_id_t id, const commands_info::ClientInfo& info) WARN_UNUSED_RESULT;
 };
 

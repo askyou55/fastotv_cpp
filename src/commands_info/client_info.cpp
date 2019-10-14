@@ -20,7 +20,6 @@
 
 #define CLIENT_INFO_LOGIN_FIELD "login"
 #define CLIENT_INFO_DEVICE_ID_FIELD "device_id"
-#define CLIENT_INFO_BANDWIDTH_FIELD "bandwidth"
 #define CLIENT_INFO_PROJECT_FIELD "project"
 #define CLIENT_INFO_OS_FIELD "os"
 #define CLIENT_INFO_CPU_FIELD "cpu"
@@ -28,15 +27,14 @@
 namespace fastotv {
 namespace commands_info {
 
-ClientInfo::ClientInfo() : login_(), device_id_(), proj_(), os_(), cpu_brand_(), bandwidth_(0) {}
+ClientInfo::ClientInfo() : login_(), device_id_(), proj_(), os_(), cpu_brand_() {}
 
 ClientInfo::ClientInfo(const login_t& login,
                        const device_id_t& device_id,
                        const ProjectInfo& proj,
                        const OperationSystemInfo& os,
-                       const std::string& cpu_brand,
-                       bandwidth_t bandwidth)
-    : login_(login), device_id_(device_id), proj_(proj), os_(os), cpu_brand_(cpu_brand), bandwidth_(bandwidth) {}
+                       const std::string& cpu_brand)
+    : login_(login), device_id_(device_id), proj_(proj), os_(os), cpu_brand_(cpu_brand) {}
 
 bool ClientInfo::IsValid() const {
   return !login_.empty();
@@ -64,7 +62,6 @@ common::Error ClientInfo::SerializeFields(json_object* deserialized) const {
   json_object_object_add(deserialized, CLIENT_INFO_PROJECT_FIELD, proj);
   json_object_object_add(deserialized, CLIENT_INFO_OS_FIELD, os);
   json_object_object_add(deserialized, CLIENT_INFO_CPU_FIELD, json_object_new_string(cpu_brand_.c_str()));
-  json_object_object_add(deserialized, CLIENT_INFO_BANDWIDTH_FIELD, json_object_new_int64(bandwidth_));
   return common::Error();
 }
 
@@ -121,12 +118,6 @@ common::Error ClientInfo::DoDeSerialize(json_object* serialized) {
     inf.cpu_brand_ = json_object_get_string(jcpu);
   }
 
-  json_object* jband = nullptr;
-  json_bool jband_exists = json_object_object_get_ex(serialized, CLIENT_INFO_BANDWIDTH_FIELD, &jband);
-  if (jband_exists) {
-    inf.bandwidth_ = json_object_get_int64(jband);
-  }
-
   *this = inf;
   return common::Error();
 }
@@ -163,16 +154,8 @@ void ClientInfo::SetCpuBrand(const std::string& brand) {
   cpu_brand_ = brand;
 }
 
-bandwidth_t ClientInfo::GetBandwidth() const {
-  return bandwidth_;
-}
-
-void ClientInfo::SetBandwidth(const bandwidth_t& band) {
-  bandwidth_ = band;
-}
-
 bool ClientInfo::Equals(const ClientInfo& info) const {
-  return login_ == info.login_ && os_ == info.os_ && cpu_brand_ == info.cpu_brand_ && bandwidth_ == info.bandwidth_;
+  return login_ == info.login_ && os_ == info.os_ && cpu_brand_ == info.cpu_brand_;
 }
 
 }  // namespace commands_info

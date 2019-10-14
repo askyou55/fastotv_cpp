@@ -29,10 +29,7 @@ namespace commands_info {
 class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
  public:
   ServerInfo();
-  explicit ServerInfo(const common::net::HostAndPort& bandwidth_host, const common::uri::Url& epg_url);
-
-  common::net::HostAndPort GetBandwidthHost() const;
-  void SetBandwidthHost(const common::net::HostAndPort& host);
+  explicit ServerInfo(const common::uri::Url& epg_url);
 
   common::uri::Url GetEpgUrl() const;
   void SetEpgUrl(const common::uri::Url& url);
@@ -44,7 +41,6 @@ class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
   common::Error SerializeFields(json_object* deserialized) const override;
 
  private:
-  common::net::HostAndPort bandwidth_host_;
   common::uri::Url epg_url_;
 };
 
