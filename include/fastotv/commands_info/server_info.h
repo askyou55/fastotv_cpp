@@ -21,6 +21,7 @@
 #include <common/net/types.h>  // for HostAndPort
 
 #include <common/serializer/json_serializer.h>
+#include <common/uri/url.h>
 
 namespace fastotv {
 namespace commands_info {
@@ -28,10 +29,13 @@ namespace commands_info {
 class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
  public:
   ServerInfo();
-  explicit ServerInfo(const common::net::HostAndPort& bandwidth_host);
+  explicit ServerInfo(const common::net::HostAndPort& bandwidth_host, const common::uri::Url& epg_url);
 
   common::net::HostAndPort GetBandwidthHost() const;
   void SetBandwidthHost(const common::net::HostAndPort& host);
+
+  common::uri::Url GetEpgUrl() const;
+  void SetEpgUrl(const common::uri::Url& url);
 
   bool Equals(const ServerInfo& serv) const;
 
@@ -41,6 +45,7 @@ class ServerInfo : public common::serializer::JsonSerializer<ServerInfo> {
 
  private:
   common::net::HostAndPort bandwidth_host_;
+  common::uri::Url epg_url_;
 };
 
 inline bool operator==(const ServerInfo& lhs, const ServerInfo& rhs) {

@@ -129,9 +129,7 @@ common::ErrnoError Client::GetServerInfoFail(protocol::sequance_id_t id, common:
   return WriteResponse(resp);
 }
 
-common::ErrnoError Client::GetServerInfoSuccess(protocol::sequance_id_t id,
-                                                const common::net::HostAndPort& bandwidth_host) {
-  commands_info::ServerInfo serv(bandwidth_host);
+common::ErrnoError Client::GetServerInfoSuccess(protocol::sequance_id_t id, const commands_info::ServerInfo& serv) {
   protocol::response_t resp;
   common::Error err_ser = GetServerInfoResponseSuccess(id, serv, &resp);
   if (err_ser) {

@@ -76,8 +76,8 @@ TEST(ChannelInfo, serialize_deserialize) {
 
 TEST(ServerInfo, serialize_deserialize) {
   const common::net::HostAndPort hs = common::net::HostAndPort::CreateLocalHost(3554);
-
-  fastotv::commands_info::ServerInfo serv_info(hs);
+  const common::uri::Url url("http://localhost/index.html");
+  fastotv::commands_info::ServerInfo serv_info(hs, url);
   ASSERT_EQ(serv_info.GetBandwidthHost(), hs);
 
   serialize_t ser;
