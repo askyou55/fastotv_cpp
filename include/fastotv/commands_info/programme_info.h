@@ -29,8 +29,14 @@ namespace commands_info {
 
 class ProgrammeInfo : public common::serializer::JsonSerializer<ProgrammeInfo> {
  public:
+  typedef common::Optional<std::string> category_t;
+
   ProgrammeInfo();
-  ProgrammeInfo(stream_id_t id, timestamp_t start_time, timestamp_t stop_time, const std::string& title);
+  ProgrammeInfo(stream_id_t id,
+                timestamp_t start_time,
+                timestamp_t stop_time,
+                const std::string& title,
+                category_t category);
 
   bool IsValid() const;
 
@@ -46,6 +52,9 @@ class ProgrammeInfo : public common::serializer::JsonSerializer<ProgrammeInfo> {
   void SetTitle(const std::string& title);
   std::string GetTitle() const;
 
+  void SetCategory(category_t category);
+  category_t GetCategory() const;
+
   bool Equals(const ProgrammeInfo& prog) const;
 
  protected:
@@ -57,6 +66,7 @@ class ProgrammeInfo : public common::serializer::JsonSerializer<ProgrammeInfo> {
   timestamp_t start_time_;  // utc time
   timestamp_t stop_time_;   // utc time
   std::string title_;
+  category_t category_;
 };
 
 inline bool operator==(const ProgrammeInfo& lhs, const ProgrammeInfo& rhs) {
