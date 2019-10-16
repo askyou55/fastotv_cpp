@@ -37,17 +37,18 @@ static const device_id_t invalid_device_id = device_id_t();
 
 enum StreamType : int {
   PROXY = 0,
-  RELAY = 1,
-  ENCODE = 2,
-  TIMESHIFT_PLAYER = 3,
-  TIMESHIFT_RECORDER = 4,
-  CATCHUP = 5,
-  TEST_LIFE = 6,
-  VOD_RELAY = 7,
-  VOD_ENCODE = 8,
-  COD_RELAY = 9,
-  COD_ENCODE = 10,
-  SCREEN  // for inner use
+  VOD_PROXY = 1,
+  RELAY = 2,
+  ENCODE = 3,
+  TIMESHIFT_PLAYER = 4,
+  TIMESHIFT_RECORDER = 5,
+  CATCHUP = 6,
+  TEST_LIFE = 7,
+  VOD_RELAY = 8,
+  VOD_ENCODE = 9,
+  COD_RELAY = 10,
+  COD_ENCODE = 11,
+  SCREEN = 12  // for inner use
 };
 
 }  // namespace fastotv
