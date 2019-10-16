@@ -30,12 +30,14 @@ namespace commands_info {
 class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
  public:
   typedef std::vector<common::uri::Url> urls_t;
+  enum Type { VODS, SERIES };
 
   MovieInfo();
   MovieInfo(const std::string& name,
             const urls_t& urls,
             const std::string& description,
-            const common::uri::Url& preview_icon);
+            const common::uri::Url& preview_icon,
+            Type type);
 
   bool IsValid() const;
 
@@ -51,6 +53,9 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   void SetPreviewIcon(const common::uri::Url& url);
   common::uri::Url GetPreviewIcon() const;
 
+  Type GetType() const;
+  void SetType(Type type);
+
   bool Equals(const MovieInfo& os) const;
 
  protected:
@@ -62,6 +67,7 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   urls_t urls_;
   std::string description_;
   common::uri::Url preview_icon_;
+  Type type_;
 };
 
 inline bool operator==(const MovieInfo& left, const MovieInfo& right) {

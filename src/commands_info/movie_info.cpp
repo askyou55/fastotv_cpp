@@ -22,17 +22,19 @@
 #define MOVIE_INFO_DESCRIPTION_FIELD "description"
 #define MOVIE_INFO_PREVIEW_ICON_FIELD "preview_icon"
 #define MOVIE_INFO_NAME_FIELD "display_name"
+#define MOVIE_INFO_TYPE_FIELD "type"
 
 namespace fastotv {
 namespace commands_info {
 
-MovieInfo::MovieInfo() : display_name_(), urls_(), description_(), preview_icon_() {}
+MovieInfo::MovieInfo() : display_name_(), urls_(), description_(), preview_icon_(), type_(VODS) {}
 
 MovieInfo::MovieInfo(const std::string& name,
                      const urls_t& urls,
                      const std::string& description,
-                     const common::uri::Url& preview_icon)
-    : display_name_(name), urls_(urls), description_(description), preview_icon_(preview_icon) {}
+                     const common::uri::Url& preview_icon,
+                     Type type)
+    : display_name_(name), urls_(urls), description_(description), preview_icon_(preview_icon), type_(type) {}
 
 bool MovieInfo::IsValid() const {
   return !urls_.empty();
@@ -70,6 +72,14 @@ common::uri::Url MovieInfo::GetPreviewIcon() const {
   return preview_icon_;
 }
 
+MovieInfo::Type MovieInfo::GetType() const {
+  return type_;
+}
+
+void MovieInfo::SetType(Type type) {
+  type_ = type;
+}
+
 common::Error MovieInfo::SerializeFields(json_object* deserialized) const {
   if (!IsValid()) {
     return common::make_error_inval();
@@ -87,6 +97,7 @@ common::Error MovieInfo::SerializeFields(json_object* deserialized) const {
     json_object_array_add(jurls, jurl);
   }
   json_object_object_add(deserialized, MOVIE_INFO_URLS_FIELD, jurls);
+  json_object_object_add(deserialized, MOVIE_INFO_TYPE_FIELD, json_object_new_int(type_));
   return common::Error();
 }
 
@@ -129,13 +140,21 @@ common::Error MovieInfo::DoDeSerialize(json_object* serialized) {
     preview_icon = common::uri::Url(json_object_get_string(jpreview_icon));
   }
 
-  MovieInfo url(name, urls, description, preview_icon);
+  Type type = VODS;
+  json_object* jtype = nullptr;
+  json_bool jtype_exists = json_object_object_get_ex(serialized, MOVIE_INFO_TYPE_FIELD, &jtype);
+  if (jtype_exists) {
+    type = static_cast<Type>(json_object_get_int(jtype));
+  }
+
+  MovieInfo url(name, urls, description, preview_icon, type);
   *this = url;
   return common::Error();
 }
 
 bool MovieInfo::Equals(const MovieInfo& url) const {
-  return urls_ == url.urls_ && description_ == url.description_ && preview_icon_ == url.preview_icon_;
+  return urls_ == url.urls_ && description_ == url.description_ && preview_icon_ == url.preview_icon_ &&
+         type_ == url.type_;
 }
 
 }  // namespace commands_info
