@@ -29,7 +29,7 @@ static const stream_id_t invalid_stream_id = stream_id_t();
 
 typedef std::string login_t;           // unique, user email now
 typedef std::string device_id_t;       // unique, mongodb id, registered by user
-typedef std::string user_id_t;         // mongodb/redis id in json
+typedef std::string user_id_t;         // mongodb id in json
 typedef size_t bandwidth_t;            // bytes/s
 typedef common::time64_t timestamp_t;  // millisecond
 
