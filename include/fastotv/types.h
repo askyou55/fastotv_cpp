@@ -26,6 +26,7 @@ namespace fastotv {
 
 typedef std::string stream_id_t;  // must be unique
 static const stream_id_t invalid_stream_id = stream_id_t();
+typedef uint64_t channel_id_t;
 
 typedef std::string login_t;           // unique, user email now
 typedef std::string device_id_t;       // unique, mongodb id, registered by user
