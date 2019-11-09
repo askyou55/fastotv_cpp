@@ -157,5 +157,14 @@ bool MovieInfo::Equals(const MovieInfo& url) const {
          type_ == url.type_;
 }
 
+const common::uri::Url& MovieInfo::GetUnknownIconUrl() {
+  static const common::uri::Url url(UNKNOWN_ICON_URI);
+  return url;
+}
+
+bool MovieInfo::IsUnknownIconUrl(const common::uri::Url& url) {
+  return url == GetUnknownIconUrl();
+}
+
 }  // namespace commands_info
 }  // namespace fastotv

@@ -58,6 +58,9 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
 
   bool Equals(const MovieInfo& os) const;
 
+  static const common::uri::Url& GetUnknownIconUrl();
+  static bool IsUnknownIconUrl(const common::uri::Url& url);
+
  protected:
   common::Error DoDeSerialize(json_object* serialized) override;
   common::Error SerializeFields(json_object* deserialized) const override;
