@@ -22,19 +22,48 @@
 #define MOVIE_INFO_DESCRIPTION_FIELD "description"
 #define MOVIE_INFO_PREVIEW_ICON_FIELD "preview_icon"
 #define MOVIE_INFO_NAME_FIELD "display_name"
+#define MOVIE_INFO_TRAILER_URL_FIELD "trailer_url"
+#define MOVIE_INFO_USER_SCORE_FIELD "user_score"
+#define MOVIE_INFO_PRIME_DATE_FIELD "prime_date"
+#define MOVIE_INFO_COUNTRY_FIELD "country"
+#define MOVIE_INFO_DURATION_FIELD "duration"
 #define MOVIE_INFO_TYPE_FIELD "type"
 
 namespace fastotv {
 namespace commands_info {
 
-MovieInfo::MovieInfo() : display_name_(), urls_(), description_(), preview_icon_(), type_(VODS) {}
+MovieInfo::MovieInfo()
+    : display_name_(),
+      urls_(),
+      description_(),
+      preview_icon_(),
+      trailer_url_(),
+      user_score_(),
+      prime_date_(),
+      country_(),
+      duration_(),
+      type_(VODS) {}
 
 MovieInfo::MovieInfo(const std::string& name,
                      const urls_t& urls,
                      const std::string& description,
                      const common::uri::Url& preview_icon,
+                     const common::uri::Url& trailer_url,
+                     double user_score,
+                     timestamp_t prime_date,
+                     const std::string& country,
+                     timestamp_t duration,
                      Type type)
-    : display_name_(name), urls_(urls), description_(description), preview_icon_(preview_icon), type_(type) {}
+    : display_name_(name),
+      urls_(urls),
+      description_(description),
+      preview_icon_(preview_icon),
+      trailer_url_(trailer_url),
+      user_score_(user_score),
+      prime_date_(prime_date),
+      country_(country),
+      duration_(duration),
+      type_(type) {}
 
 bool MovieInfo::IsValid() const {
   return !urls_.empty();
@@ -72,6 +101,26 @@ common::uri::Url MovieInfo::GetPreviewIcon() const {
   return preview_icon_;
 }
 
+common::uri::Url MovieInfo::GetTrailerUrl() const {
+  return trailer_url_;
+}
+
+double MovieInfo::GetUserScore() const {
+  return user_score_;
+}
+
+timestamp_t MovieInfo::GetPrimeDate() const {
+  return prime_date_;
+}
+
+const std::string& MovieInfo::GetCountry() const {
+  return country_;
+}
+
+timestamp_t MovieInfo::GetDuration() const {
+  return duration_;
+}
+
 MovieInfo::Type MovieInfo::GetType() const {
   return type_;
 }
@@ -89,6 +138,13 @@ common::Error MovieInfo::SerializeFields(json_object* deserialized) const {
   json_object_object_add(deserialized, MOVIE_INFO_DESCRIPTION_FIELD, json_object_new_string(description_.c_str()));
   const std::string icon_url_str = preview_icon_.GetUrl();
   json_object_object_add(deserialized, MOVIE_INFO_PREVIEW_ICON_FIELD, json_object_new_string(icon_url_str.c_str()));
+
+  const std::string trailer_url_str = trailer_url_.GetUrl();
+  json_object_object_add(deserialized, MOVIE_INFO_TRAILER_URL_FIELD, json_object_new_string(trailer_url_str.c_str()));
+  json_object_object_add(deserialized, MOVIE_INFO_USER_SCORE_FIELD, json_object_new_double(user_score_));
+  json_object_object_add(deserialized, MOVIE_INFO_PRIME_DATE_FIELD, json_object_new_int64(prime_date_));
+  json_object_object_add(deserialized, MOVIE_INFO_COUNTRY_FIELD, json_object_new_string(country_.c_str()));
+  json_object_object_add(deserialized, MOVIE_INFO_DURATION_FIELD, json_object_new_int64(duration_));
 
   json_object* jurls = json_object_new_array();
   for (const auto url : urls_) {
@@ -140,6 +196,41 @@ common::Error MovieInfo::DoDeSerialize(json_object* serialized) {
     preview_icon = common::uri::Url(json_object_get_string(jpreview_icon));
   }
 
+  common::uri::Url trailer_url;
+  json_object* jtrailer_url = nullptr;
+  json_bool jtrailer_url_exists = json_object_object_get_ex(serialized, MOVIE_INFO_TRAILER_URL_FIELD, &jtrailer_url);
+  if (jtrailer_url_exists) {
+    trailer_url = common::uri::Url(json_object_get_string(jtrailer_url));
+  }
+
+  double user_score;
+  json_object* juser_score = nullptr;
+  json_bool juser_score_exists = json_object_object_get_ex(serialized, MOVIE_INFO_USER_SCORE_FIELD, &juser_score);
+  if (juser_score_exists) {
+    user_score = json_object_get_double(juser_score);
+  }
+
+  timestamp_t prime_date;
+  json_object* jprime_date = nullptr;
+  json_bool jprime_date_exists = json_object_object_get_ex(serialized, MOVIE_INFO_PRIME_DATE_FIELD, &jprime_date);
+  if (jprime_date_exists) {
+    prime_date = json_object_get_int64(jprime_date);
+  }
+
+  std::string country;
+  json_object* jcountry = nullptr;
+  json_bool jcountry_exists = json_object_object_get_ex(serialized, MOVIE_INFO_COUNTRY_FIELD, &jcountry);
+  if (jcountry_exists) {
+    country_ = json_object_get_string(jcountry);
+  }
+
+  json_object* jduration = nullptr;
+  timestamp_t duration;
+  json_bool jduration_exists = json_object_object_get_ex(serialized, MOVIE_INFO_DURATION_FIELD, &jduration);
+  if (jduration_exists) {
+    duration = json_object_get_int64(jduration);
+  }
+
   Type type = VODS;
   json_object* jtype = nullptr;
   json_bool jtype_exists = json_object_object_get_ex(serialized, MOVIE_INFO_TYPE_FIELD, &jtype);
@@ -147,7 +238,7 @@ common::Error MovieInfo::DoDeSerialize(json_object* serialized) {
     type = static_cast<Type>(json_object_get_int(jtype));
   }
 
-  MovieInfo url(name, urls, description, preview_icon, type);
+  MovieInfo url(name, urls, description, preview_icon, trailer_url, user_score, prime_date, country, duration, type);
   *this = url;
   return common::Error();
 }

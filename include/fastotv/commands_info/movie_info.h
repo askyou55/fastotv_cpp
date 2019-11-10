@@ -23,6 +23,7 @@
 
 #include <common/serializer/json_serializer.h>
 #include <common/uri/url.h>  // for Uri
+#include <fastotv/types.h>
 
 namespace fastotv {
 namespace commands_info {
@@ -37,6 +38,11 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
             const urls_t& urls,
             const std::string& description,
             const common::uri::Url& preview_icon,
+            const common::uri::Url& trailer_url,
+            double user_score,
+            timestamp_t prime_date,
+            const std::string& country,
+            timestamp_t duration,
             Type type);
 
   bool IsValid() const;
@@ -52,6 +58,12 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
 
   void SetPreviewIcon(const common::uri::Url& url);
   common::uri::Url GetPreviewIcon() const;
+
+  common::uri::Url GetTrailerUrl() const;
+  double GetUserScore() const;
+  timestamp_t GetPrimeDate() const;
+  const std::string& GetCountry() const;
+  timestamp_t GetDuration() const;
 
   Type GetType() const;
   void SetType(Type type);
@@ -70,6 +82,11 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   urls_t urls_;
   std::string description_;
   common::uri::Url preview_icon_;
+  common::uri::Url trailer_url_;
+  double user_score_;
+  timestamp_t prime_date_;
+  std::string country_;
+  timestamp_t duration_;
   Type type_;
 };
 
