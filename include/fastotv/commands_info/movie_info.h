@@ -59,10 +59,19 @@ class MovieInfo : public common::serializer::JsonSerializer<MovieInfo> {
   void SetPreviewIcon(const common::uri::Url& url);
   common::uri::Url GetPreviewIcon() const;
 
+  void SetTrailerUrl(const common::uri::Url& url);
   common::uri::Url GetTrailerUrl() const;
+
+  void SetUserScore(double score);
   double GetUserScore() const;
+
+  void SetPrimeDate(timestamp_t date);
   timestamp_t GetPrimeDate() const;
+
+  void SetCountry(const std::string& country);
   const std::string& GetCountry() const;
+
+  void SetDuration(timestamp_t dur);
   timestamp_t GetDuration() const;
 
   Type GetType() const;

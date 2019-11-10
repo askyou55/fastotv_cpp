@@ -101,20 +101,40 @@ common::uri::Url MovieInfo::GetPreviewIcon() const {
   return preview_icon_;
 }
 
+void MovieInfo::SetTrailerUrl(const common::uri::Url& url) {
+  trailer_url_ = url;
+}
+
 common::uri::Url MovieInfo::GetTrailerUrl() const {
   return trailer_url_;
+}
+
+void MovieInfo::SetUserScore(double score) {
+  user_score_ = score;
 }
 
 double MovieInfo::GetUserScore() const {
   return user_score_;
 }
 
+void MovieInfo::SetPrimeDate(timestamp_t date) {
+  prime_date_ = date;
+}
+
 timestamp_t MovieInfo::GetPrimeDate() const {
   return prime_date_;
 }
 
+void MovieInfo::SetCountry(const std::string& country) {
+  country_ = country;
+}
+
 const std::string& MovieInfo::GetCountry() const {
   return country_;
+}
+
+void MovieInfo::SetDuration(timestamp_t dur) {
+  duration_ = dur;
 }
 
 timestamp_t MovieInfo::GetDuration() const {
