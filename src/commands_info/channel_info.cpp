@@ -26,12 +26,11 @@ namespace commands_info {
 ChannelInfo::ChannelInfo() : base_class(), epg_() {}
 
 ChannelInfo::ChannelInfo(stream_id_t sid,
-                         Type type,
                          const std::string& group,
                          const EpgInfo& epg,
                          bool enable_audio,
                          bool enable_video)
-    : base_class(sid, type, group, enable_audio, enable_video), epg_(epg) {}
+    : base_class(sid, group, enable_audio, enable_video), epg_(epg) {}
 
 bool ChannelInfo::IsValid() const {
   return base_class::IsValid() && epg_.IsValid();

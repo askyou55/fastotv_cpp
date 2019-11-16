@@ -34,7 +34,6 @@ class VodInfo : public StreamBaseInfo {
 
   VodInfo();
   VodInfo(stream_id_t sid,
-          Type type,
           const std::string& group,
           const MovieInfo& movie,
           bool enable_audio,

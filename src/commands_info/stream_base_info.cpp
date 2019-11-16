@@ -19,7 +19,6 @@
 #include <fastotv/commands_info/stream_base_info.h>
 
 #define CHANNEL_INFO_ID_FIELD "id"
-#define CHANNEL_INFO_TYPE_FIELD "type"
 #define CHANNEL_INFO_GROUP_FIELD "group"
 #define CHANNEL_INFO_VIDEO_ENABLE_FIELD "video"
 #define CHANNEL_INFO_AUDIO_ENABLE_FIELD "audio"
@@ -27,15 +26,10 @@
 namespace fastotv {
 namespace commands_info {
 
-StreamBaseInfo::StreamBaseInfo()
-    : stream_id_(invalid_stream_id), type_(PUBLIC), group_(), enable_audio_(true), enable_video_(true) {}
+StreamBaseInfo::StreamBaseInfo() : stream_id_(invalid_stream_id), group_(), enable_audio_(true), enable_video_(true) {}
 
-StreamBaseInfo::StreamBaseInfo(stream_id_t sid,
-                               Type type,
-                               const std::string& group,
-                               bool enable_audio,
-                               bool enable_video)
-    : stream_id_(sid), type_(type), group_(group), enable_audio_(enable_audio), enable_video_(enable_video) {}
+StreamBaseInfo::StreamBaseInfo(stream_id_t sid, const std::string& group, bool enable_audio, bool enable_video)
+    : stream_id_(sid), group_(group), enable_audio_(enable_audio), enable_video_(enable_video) {}
 
 bool StreamBaseInfo::IsValid() const {
   return stream_id_ != invalid_stream_id;
@@ -47,14 +41,6 @@ stream_id_t StreamBaseInfo::GetStreamID() const {
 
 void StreamBaseInfo::SetStreamID(const stream_id_t sid) {
   stream_id_ = sid;
-}
-
-StreamBaseInfo::Type StreamBaseInfo::GetType() const {
-  return type_;
-}
-
-void StreamBaseInfo::SetType(Type type) {
-  type_ = type;
 }
 
 std::string StreamBaseInfo::GetGroup() const {
@@ -79,7 +65,6 @@ common::Error StreamBaseInfo::SerializeFields(json_object* deserialized) const {
   }
 
   json_object_object_add(deserialized, CHANNEL_INFO_ID_FIELD, json_object_new_string(stream_id_.c_str()));
-  json_object_object_add(deserialized, CHANNEL_INFO_TYPE_FIELD, json_object_new_int(type_));
   json_object_object_add(deserialized, CHANNEL_INFO_GROUP_FIELD, json_object_new_string(group_.c_str()));
   json_object_object_add(deserialized, CHANNEL_INFO_AUDIO_ENABLE_FIELD, json_object_new_boolean(enable_audio_));
   json_object_object_add(deserialized, CHANNEL_INFO_VIDEO_ENABLE_FIELD, json_object_new_boolean(enable_video_));
@@ -94,13 +79,6 @@ common::Error StreamBaseInfo::DoDeSerialize(json_object* serialized) {
     return common::make_error_inval();
   }
   sid = json_object_get_string(jsid);
-
-  Type type = PUBLIC;
-  json_object* jtype = nullptr;
-  json_bool jtype_exists = json_object_object_get_ex(serialized, CHANNEL_INFO_TYPE_FIELD, &jtype);
-  if (jtype_exists) {
-    type = static_cast<Type>(json_object_get_int(jtype));
-  }
 
   std::string group;
   json_object* jgroup = nullptr;
@@ -125,7 +103,7 @@ common::Error StreamBaseInfo::DoDeSerialize(json_object* serialized) {
     enable_video = json_object_get_boolean(jdisable_video);
   }
 
-  StreamBaseInfo url(sid, type, group, enable_audio, enable_video);
+  StreamBaseInfo url(sid, group, enable_audio, enable_video);
   if (!url.IsValid()) {
     return common::make_error_inval();
   }

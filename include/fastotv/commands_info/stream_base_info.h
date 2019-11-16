@@ -29,18 +29,13 @@ namespace commands_info {
 
 class StreamBaseInfo : public common::serializer::JsonSerializer<StreamBaseInfo> {
  public:
-  enum Type { PUBLIC, PRIVATE };
-
   StreamBaseInfo();
-  StreamBaseInfo(stream_id_t sid, Type type, const std::string& group, bool enable_audio, bool enable_video);
+  StreamBaseInfo(stream_id_t sid, const std::string& group, bool enable_audio, bool enable_video);
 
   bool IsValid() const;
 
   stream_id_t GetStreamID() const;
   void SetStreamID(const stream_id_t sid);
-
-  Type GetType() const;
-  void SetType(Type type);
 
   std::string GetGroup() const;
   void SetGroup(const std::string& group);
@@ -56,7 +51,6 @@ class StreamBaseInfo : public common::serializer::JsonSerializer<StreamBaseInfo>
 
  private:
   stream_id_t stream_id_;
-  Type type_;
   std::string group_;
 
   bool enable_audio_;

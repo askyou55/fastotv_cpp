@@ -34,7 +34,6 @@ class ChannelInfo : public StreamBaseInfo {
 
   ChannelInfo();
   ChannelInfo(stream_id_t sid,
-              Type type,
               const std::string& group,
               const EpgInfo& epg,
               bool enable_audio,

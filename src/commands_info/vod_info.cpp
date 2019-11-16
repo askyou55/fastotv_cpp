@@ -26,12 +26,11 @@ namespace commands_info {
 VodInfo::VodInfo() : base_class(), movie_() {}
 
 VodInfo::VodInfo(stream_id_t sid,
-                 Type type,
                  const std::string& group,
                  const MovieInfo& movie,
                  bool enable_audio,
                  bool enable_video)
-    : base_class(sid, type, group, enable_audio, enable_video), movie_(movie) {}
+    : base_class(sid, group, enable_audio, enable_video), movie_(movie) {}
 
 bool VodInfo::IsValid() const {
   return base_class::IsValid() && movie_.IsValid();
