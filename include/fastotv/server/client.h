@@ -59,7 +59,8 @@ class Client : public ProtocoledClient {
   common::ErrnoError GetChannelsFail(protocol::sequance_id_t id, common::Error err) WARN_UNUSED_RESULT;
   common::ErrnoError GetChannelsSuccess(protocol::sequance_id_t id,
                                         const commands_info::ChannelsInfo& channels,
-                                        const commands_info::VodsInfo& vods) WARN_UNUSED_RESULT;
+                                        const commands_info::VodsInfo& vods,
+                                        const commands_info::ChannelsInfo& private_channels) WARN_UNUSED_RESULT;
 
   common::ErrnoError GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id,
                                                   stream_id_t sid,

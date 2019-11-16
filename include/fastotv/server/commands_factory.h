@@ -67,6 +67,7 @@ common::Error GetServerInfoResponseFail(protocol::sequance_id_t id,
 common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
                                          const commands_info::ChannelsInfo& channels,
                                          const commands_info::VodsInfo& vods,
+                                         const commands_info::ChannelsInfo& private_channels,
                                          protocol::response_t* resp);
 common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
                                       const std::string& error_text,
