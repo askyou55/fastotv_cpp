@@ -33,11 +33,7 @@ class ChannelInfo : public StreamBaseInfo {
   typedef StreamBaseInfo base_class;
 
   ChannelInfo();
-  ChannelInfo(stream_id_t sid,
-              const std::string& group,
-              const EpgInfo& epg,
-              bool enable_audio,
-              bool enable_video);
+  ChannelInfo(stream_id_t sid, const std::string& group, const EpgInfo& epg, bool enable_audio, bool enable_video);
 
   bool IsValid() const;
 

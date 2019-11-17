@@ -33,11 +33,7 @@ class VodInfo : public StreamBaseInfo {
   typedef StreamBaseInfo base_class;
 
   VodInfo();
-  VodInfo(stream_id_t sid,
-          const std::string& group,
-          const MovieInfo& movie,
-          bool enable_audio,
-          bool enable_video);
+  VodInfo(stream_id_t sid, const std::string& group, const MovieInfo& movie, bool enable_audio, bool enable_video);
 
   bool IsValid() const;
 

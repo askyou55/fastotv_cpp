@@ -23,6 +23,7 @@
 #define CHANNELS_FIELD "channels"
 #define VODS_FIELD "vods"
 #define PRIVATE_CHANNELS_FIELD "private_channels"
+#define PRIVATE_VODS_FIELD "private_vods"
 
 namespace fastotv {
 namespace server {
@@ -166,6 +167,7 @@ common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
                                          const commands_info::ChannelsInfo& channels,
                                          const commands_info::VodsInfo& vods,
                                          const commands_info::ChannelsInfo& private_channels,
+                                         const fastotv::commands_info::VodsInfo& private_vods,
                                          protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
@@ -189,10 +191,17 @@ common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
     return err_ser;
   }
 
+  json_object* pvobj = nullptr;
+  err_ser = private_vods.Serialize(&pvobj);
+  if (err_ser) {
+    return err_ser;
+  }
+
   json_object* parent = json_object_new_object();
   json_object_object_add(parent, CHANNELS_FIELD, cobj);
   json_object_object_add(parent, VODS_FIELD, vobj);
   json_object_object_add(parent, PRIVATE_CHANNELS_FIELD, pcobj);
+  json_object_object_add(parent, PRIVATE_VODS_FIELD, pvobj);
   const std::string chan_json = json_object_get_string(parent);
   json_object_put(parent);
 
