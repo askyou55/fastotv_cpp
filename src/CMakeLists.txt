@@ -48,6 +48,7 @@ SET(PROTOCOL_HEADERS
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/vods_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/stream_base_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/runtime_channel_info.h
+  ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/catchup_request_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/channels_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/ping_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/server_info.h
@@ -72,6 +73,7 @@ SET(PROTOCOL_SOURCES
   ${CMAKE_SOURCE_DIR}/src/commands_info/programme_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/device_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/channel_info.cpp
+  ${CMAKE_SOURCE_DIR}/src/commands_info/catchup_request_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/epg_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/movie_info.cpp
   ${CMAKE_SOURCE_DIR}/src/commands_info/vod_info.cpp
