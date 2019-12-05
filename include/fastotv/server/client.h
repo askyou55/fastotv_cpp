@@ -17,6 +17,7 @@
 #include <common/net/types.h>
 
 #include <fastotv/client.h>
+#include <fastotv/commands_info/catchups_info.h>
 #include <fastotv/commands_info/channels_info.h>
 #include <fastotv/commands_info/devices_info.h>
 #include <fastotv/commands_info/ping_info.h>
@@ -61,7 +62,8 @@ class Client : public ProtocoledClient {
                                         const commands_info::ChannelsInfo& channels,
                                         const commands_info::VodsInfo& vods,
                                         const commands_info::ChannelsInfo& private_channels,
-                                        const commands_info::VodsInfo& private_vods) WARN_UNUSED_RESULT;
+                                        const commands_info::VodsInfo& private_vods,
+                                        const commands_info::CatchupsInfo& catchups) WARN_UNUSED_RESULT;
 
   common::ErrnoError GetRuntimeChannelInfoSuccess(protocol::sequance_id_t id,
                                                   stream_id_t sid,

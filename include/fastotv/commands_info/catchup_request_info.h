@@ -30,8 +30,7 @@ namespace commands_info {
 class CatchupRequestInfo : public common::serializer::JsonSerializer<CatchupRequestInfo> {
  public:
   CatchupRequestInfo();
-  explicit CatchupRequestInfo(stream_id_t sid,timestamp_t start_time,
-                timestamp_t stop_time);
+  explicit CatchupRequestInfo(stream_id_t sid, timestamp_t start_time, timestamp_t stop_time);
   ~CatchupRequestInfo();
 
   bool IsValid() const;
@@ -44,7 +43,6 @@ class CatchupRequestInfo : public common::serializer::JsonSerializer<CatchupRequ
 
   void SetStop(timestamp_t stop);  // UTC
   timestamp_t GetStop() const;
-
 
   bool Equals(const CatchupRequestInfo& inf) const;
 

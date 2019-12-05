@@ -46,6 +46,7 @@ SET(PROTOCOL_HEADERS
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/movie_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/vod_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/vods_info.h
+  ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/catchups_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/stream_base_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/runtime_channel_info.h
   ${CMAKE_SOURCE_DIR}/include/fastotv/commands_info/catchup_request_info.h

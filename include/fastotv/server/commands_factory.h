@@ -22,6 +22,8 @@
 
 #include <fastotv/protocol/types.h>
 
+#include <fastotv/commands_info/catchup_request_info.h>
+#include <fastotv/commands_info/catchups_info.h>
 #include <fastotv/commands_info/channels_info.h>
 #include <fastotv/commands_info/devices_info.h>
 #include <fastotv/commands_info/ping_info.h>
@@ -69,6 +71,7 @@ common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
                                          const commands_info::VodsInfo& vods,
                                          const commands_info::ChannelsInfo& private_channels,
                                          const commands_info::VodsInfo& private_vods,
+                                         const commands_info::CatchupsInfo& catchups,
                                          protocol::response_t* resp);
 common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
                                       const std::string& error_text,
@@ -78,6 +81,12 @@ common::Error GetChannelsResponseFail(protocol::sequance_id_t id,
 common::Error GetRuntimeChannelInfoResponseSuccess(protocol::sequance_id_t id,
                                                    const commands_info::RuntimeChannelInfo& params,
                                                    protocol::response_t* resp);
+
+// catchups info
+common::Error CatchupResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp);
+common::Error CatchupResponseFail(protocol::sequance_id_t id,
+                                  const std::string& error_text,
+                                  protocol::response_t* resp);
 
 }  // namespace server
 }  // namespace fastotv

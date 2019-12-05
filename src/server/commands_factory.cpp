@@ -24,6 +24,7 @@
 #define VODS_FIELD "vods"
 #define PRIVATE_CHANNELS_FIELD "private_channels"
 #define PRIVATE_VODS_FIELD "private_vods"
+#define CATCHUPS_FIELD "catchups"
 
 namespace fastotv {
 namespace server {
@@ -168,6 +169,7 @@ common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
                                          const commands_info::VodsInfo& vods,
                                          const commands_info::ChannelsInfo& private_channels,
                                          const fastotv::commands_info::VodsInfo& private_vods,
+                                         const commands_info::CatchupsInfo& catchups,
                                          protocol::response_t* resp) {
   if (!resp) {
     return common::make_error_inval();
@@ -197,11 +199,18 @@ common::Error GetChannelsResponseSuccess(protocol::sequance_id_t id,
     return err_ser;
   }
 
+  json_object* pcatch = nullptr;
+  err_ser = catchups.Serialize(&pcatch);
+  if (err_ser) {
+    return err_ser;
+  }
+
   json_object* parent = json_object_new_object();
   json_object_object_add(parent, CHANNELS_FIELD, cobj);
   json_object_object_add(parent, VODS_FIELD, vobj);
   json_object_object_add(parent, PRIVATE_CHANNELS_FIELD, pcobj);
   json_object_object_add(parent, PRIVATE_VODS_FIELD, pvobj);
+  json_object_object_add(parent, CATCHUPS_FIELD, pcatch);
   const std::string chan_json = json_object_get_string(parent);
   json_object_put(parent);
 
@@ -237,6 +246,27 @@ common::Error GetRuntimeChannelInfoResponseSuccess(protocol::sequance_id_t id,
 
   *resp =
       protocol::response_t::MakeMessage(id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage(run_json));
+  return common::Error();
+}
+
+common::Error CatchupResponseSuccess(protocol::sequance_id_t id, protocol::response_t* resp) {
+  if (!resp) {
+    return common::make_error_inval();
+  }
+
+  *resp = protocol::response_t::MakeMessage(id, common::protocols::json_rpc::JsonRPCMessage::MakeSuccessMessage());
+  return common::Error();
+}
+
+common::Error CatchupResponseFail(protocol::sequance_id_t id,
+                                  const std::string& error_text,
+                                  protocol::response_t* resp) {
+  if (!resp) {
+    return common::make_error_inval();
+  }
+
+  *resp = protocol::response_t::MakeError(
+      id, common::protocols::json_rpc::JsonRPCError::MakeInternalErrorFromText(error_text));
   return common::Error();
 }
 

@@ -25,6 +25,7 @@
 #define CLIENT_GET_SERVER_INFO "get_server_info"
 #define CLIENT_GET_CHANNELS "get_channels"
 #define CLIENT_GET_RUNTIME_CHANNEL_INFO "get_runtime_channel_info"
+#define CLIENT_REQUEST_CATCHUP "request_catchup"
 
 // server commands
 #define SERVER_PING "server_ping"  // ping client

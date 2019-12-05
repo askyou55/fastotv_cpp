@@ -131,6 +131,27 @@ common::Error GetRuntimeChannelInfoRequest(protocol::sequance_id_t id,
   return common::Error();
 }
 
+common::Error CatchupRequest(protocol::sequance_id_t id,
+                             const commands_info::CatchupRequestInfo& params,
+                             protocol::request_t* req) {
+  if (!req) {
+    return common::make_error_inval();
+  }
+
+  std::string run_json;
+  common::Error err_ser = params.SerializeToString(&run_json);
+  if (err_ser) {
+    return err_ser;
+  }
+
+  protocol::request_t lreq;
+  lreq.id = id;
+  lreq.method = CLIENT_REQUEST_CATCHUP;
+  lreq.params = run_json;
+  *req = lreq;
+  return common::Error();
+}
+
 common::Error PingResponseSuccess(protocol::sequance_id_t id,
                                   const commands_info::ClientPingInfo& params,
                                   protocol::response_t* resp) {

@@ -23,6 +23,7 @@
 #include <fastotv/protocol/types.h>
 
 #include <fastotv/commands_info/auth_info.h>
+#include <fastotv/commands_info/catchup_request_info.h>
 #include <fastotv/commands_info/client_info.h>
 #include <fastotv/commands_info/ping_info.h>
 #include <fastotv/commands_info/runtime_channel_info.h>
@@ -43,6 +44,9 @@ common::Error GetChannelsRequest(protocol::sequance_id_t id, protocol::request_t
 common::Error GetRuntimeChannelInfoRequest(protocol::sequance_id_t id,
                                            const commands_info::RuntimeChannelLiteInfo& params,
                                            protocol::request_t* req);
+common::Error CatchupRequest(protocol::sequance_id_t id,
+                             const commands_info::CatchupRequestInfo& params,
+                             protocol::request_t* req);
 
 // response
 common::Error PingResponseSuccess(protocol::sequance_id_t id,
